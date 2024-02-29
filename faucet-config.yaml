@@ -24,22 +24,22 @@ httpProxyCount: 0
 faucetTitle: "Vitra PoW Faucet"
 
 # url to image displayed on the startpage
-faucetImage: "/images/fauceth_420.jpg"
+faucetImage: "/images/vitra_faucet.png"
 
 # some additional html to show on the startpage
 faucetHomeHtml: |
   <div class='pow-info'>
     <h5>What is a PoW Faucet?</h5>
-    This is an Ethereum Faucet running on the Holesky Testnet.<br>
+    This is an VITRA Faucet running on the Vitra Testnet.<br>
     To prevent malicious actors from exhausting all available funds or 
-    accumulating enough Ether to mount long running spam attacks, 
+    accumulating enough VITRA to mount long running spam attacks, 
     this faucet requires some mining work to be done in exchange for 
     free testnet funds.
   </div>
   <div class='pow-info'>
     <h5>How does this work?</h5>
-    Just enter your ETH Address and start mining. 
-    When you've collected enough ETH, stop mining and claim your rewards.
+    Just enter your VITRA Address and start mining. 
+    When you've collected enough VITRA, stop mining and claim your rewards.
   </div>
   <div class='pow-info'>
     <h5>How to help the faucet?</h5>
@@ -49,20 +49,20 @@ faucetHomeHtml: |
 
 # random secret string that is used by the faucet to "sign" session data, so sessions can be restored automatically by clients when faucet is restarted / crashed
 # use a random string and do not share / reuse it anywhere. Everyone knowing this secret is theoretically able to claim rewards from the faucet without mining.
-faucetSecret: "RandomStringThatShouldBeVerySecret!"
+faucetSecret: "039372b19342465827ef19bf7ca954a37eabb4b0711daa607e267072815535d7a3e93959a7f495bb"
 
 # ETH execution layer RPC host
 #ethRpcHost: "http://127.0.0.1:8545/"
-ethRpcHost: "https://rpc.holesky.ethpandaops.io"
+ethRpcHost: "https://vitrafoundation-rpc.com"
 
 # faucet wallet private key (hex, without 0x prefix)
-ethWalletKey: "feedbeef12340000feedbeef12340000feedbeef12340000feedbeef12340000"
+ethWalletKey: "50b95c588f777ff1c6b33a47a084549a830a75cac8ef8c644ae110ff80e2e5cb"
 
 # EVM chain id (null for auto-detect from RPC)
 ethChainId: null
 
 # symbol (short name) of the coin that can be mined
-faucetCoinSymbol: "HolETH"
+faucetCoinSymbol: "VITRA"
 
 # type of coin that can be mined
 # native = native coin (ETH)
@@ -94,7 +94,7 @@ ethMaxPending: 12
 ethQueueNoFunds: true
 
 # link to eth transaction explorer with {txid} as placeholder for transaction id or null for no link
-ethTxExplorerLink: "https://holesky.etherscan.io/tx/{txid}"
+ethTxExplorerLink: "https://testnet.vitrascan.com/transactions/{txid}"
 
 
 # min/max drop amount (max is the default if no module lowers it)
@@ -125,19 +125,19 @@ modules:
     # captcha provider
     # hcaptcha:  HCaptcha (https://hcaptcha.com)
     # recaptcha: ReCAPTCHA (https://developers.google.com/recaptcha)
-    provider: "hcaptcha"
+    provider: "recaptcha"
 
     # captcha site key
-    siteKey: "00000000-0000-0000-0000-000000000000"
+    siteKey: "6LffBoQpAAAAAAXtJcJrZy35LYidSyL-XRyObUBv"
 
     # captcha secret key
-    secret: "0xCensoredHCaptchaSecretKey"
+    secret: "6LffBoQpAAAAADnT2I_Cnu05nsUk3VGMNvDXOPgq"
 
     # require captcha to start a new session (default: false)
     checkSessionStart: false
 
     # require captcha to start claim payout (default: false)
-    checkBalanceClaim: false
+    checkBalanceClaim: true
   
   ## ENS Name
   ensname:
@@ -488,19 +488,19 @@ buildSeoIndex: true
 
 # some additional meta tags to add to the SEO optimized page
 buildSeoMeta:
-  keywords: "powfaucet,faucet,ethereum,ethereum faucet,evm,eth,pow"
+  keywords: "powfaucet,faucet,vitra,vitra faucet,evm,vit,pow"
 
 resultSharing:
-  preHtml: |
-    <div class="sh-opt">
-      Did you like the faucet? Give that project a 
-      <iframe src="https://ghbtns.com/github-btn.html?user=pk910&repo=PoWFaucet&type=star&count=true" frameborder="0" scrolling="0" width="150" height="20" title="GitHub"></iframe>
-    </div>
+  # preHtml: |
+  #   <div class="sh-opt">
+  #     Did you like the faucet? Give that project a 
+  #     <iframe src="https://ghbtns.com/github-btn.html?user=pk910&repo=PoWFaucet&type=star&count=true" frameborder="0" scrolling="0" width="150" height="20" title="GitHub"></iframe>
+  #   </div>
   #postHtml: |
   #  <div class="sh-opt">
   #  </div>
-  caption: "Or support this faucet by sharing your result with a "
+  # caption: "Or support this faucet by sharing your result with a "
 
   # result sharing buttons
-  twitter: "Boom! Just got {amount} Holesky ETH from {url} (Mining for {duration} with {hashrate} H/s) #holesky #faucet"
-  mastodon: "Boom! Just got {amount} Holesky ETH from {url} (Mining for {duration} with {hashrate} H/s)"
+  twitter: "Boom! Just got {amount} VITRA from {url} (Mining for {duration} with {hashrate} H/s) #vitra #faucet"
+  mastodon: "Boom! Just got {amount} VITRA from {url} (Mining for {duration} with {hashrate} H/s)"

@@ -15,13 +15,13 @@ faucetLogFile: "faucet-events.log"
 faucetPidFile: "faucet-pid.txt"
 
 # faucet http/ws server port
-serverPort: 8080
+serverPort: 3000
 
 # number of http proxies in front of this faucet
 httpProxyCount: 0
 
 # title of the faucet
-faucetTitle: "Holesky PoW Faucet"
+faucetTitle: "Vitra PoW Faucet"
 
 # url to image displayed on the startpage
 faucetImage: "/images/fauceth_420.jpg"

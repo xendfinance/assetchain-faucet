@@ -29,5 +29,5 @@ COPY --from=build-client-env /build/static ./static
 COPY ./faucet-config.example.yaml .
 RUN cp ./static/index.html ./static/index.seo.html && chmod 777 ./static/index.seo.html
 
-EXPOSE 8080
+EXPOSE 3000
 ENTRYPOINT [ "node", "--no-deprecation", "bundle/powfaucet.cjs" ]

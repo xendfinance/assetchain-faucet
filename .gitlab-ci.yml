@@ -6,4 +6,6 @@ include:
   - project: '$DEVOPS_PROJECT_PATH'
     ref: 'main'
     file: 'clients/build/backend/aws/.gitlab-ci.yml'
-
+  - project: '$DEVOPS_PROJECT_PATH'
+    ref: 'main'
+    file: 'clients/deploy/backend/aws/.ecs-task.yml'

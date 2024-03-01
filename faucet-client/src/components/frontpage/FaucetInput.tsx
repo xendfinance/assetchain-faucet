@@ -37,7 +37,7 @@ export class FaucetInput extends React.PureComponent<IFaucetInputProps, IFaucetI
       inputTypes.push("ENS name");
     }
     else {
-      inputTypes.push("ETH address");
+      inputTypes.push("VITRA address");
       if(this.props.faucetConfig.modules.ensname)
         inputTypes.push("ENS name");
     }

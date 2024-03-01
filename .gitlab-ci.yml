@@ -1,0 +1,9 @@
+stages:
+  - build
+  - deploy
+
+include:
+  - project: '$DEVOPS_PROJECT_PATH'
+    ref: 'main'
+    file: 'clients/build/backend/aws/.gitlab-ci.yml'
+

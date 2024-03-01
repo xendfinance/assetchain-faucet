@@ -26,8 +26,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 RUN update-ca-certificates
 COPY --from=build-server-env /build/bundle ./bundle
 COPY --from=build-client-env /build/static ./static
-COPY ./faucet-config.example.yaml .
+COPY ./faucet-config.yaml .
 RUN cp ./static/index.html ./static/index.seo.html && chmod 777 ./static/index.seo.html
 
-EXPOSE 8080
+EXPOSE 3000
 ENTRYPOINT [ "node", "--no-deprecation", "bundle/powfaucet.cjs" ]

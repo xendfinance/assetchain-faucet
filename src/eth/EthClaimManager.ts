@@ -305,7 +305,7 @@ export class EthClaimManager {
       // send transaction
       let { txPromise } = await ethWalletManager.sendClaimTx(claimTx);
       this.pendingTxQueue[claimTx.claim.txHash] = claimTx;
-      
+
       ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.INFO, "Submitted claim transaction " + claimTx.session + " [" + ethWalletManager.readableAmount(BigInt(claimTx.amount)) + "] to: " + claimTx.target + ": " + claimTx.claim.txHash);
       claimTx.claim.claimStatus = ClaimTxStatus.PENDING;
       this.updateClaimStatus(claimTx);

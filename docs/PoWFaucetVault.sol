@@ -9,107 +9,127 @@ pragma solidity ^0.8.15;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 interface IERC20Interface {
-  function transfer(address _to, uint256 _value) external returns (bool success);
-  function balanceOf(address account) external view returns (uint256);
+    function transfer(
+        address _to,
+        uint256 _value
+    ) external returns (bool success);
+
+    function balanceOf(address account) external view returns (uint256);
 }
 
 struct FaucetAllowance {
-  uint256 amount;
-  uint256 interval;
+    uint256 amount;
+    uint256 interval;
 }
 
 struct FaucetWithdrawal {
-  uint256 time;
-  uint256 amount;
+    uint256 time;
+    uint256 amount;
 }
 
 contract PoWFaucetVault is AccessControl {
+    mapping(address => FaucetAllowance) private _faucetAllowances;
+    mapping(address => mapping(uint256 => FaucetWithdrawal))
+        private _faucetWithdrawals;
+    mapping(address => uint256) private _faucetWithdrawalCount;
 
-  mapping(address => FaucetAllowance) private _faucetAllowances;
-  mapping(address => mapping(uint256 => FaucetWithdrawal)) private _faucetWithdrawals;
-  mapping(address => uint256) private _faucetWithdrawalCount;
+    event FaucetWithdraw(address indexed faucet, uint time, uint amount);
 
-  event FaucetWithdraw(address indexed faucet, uint time, uint amount);
-
-  constructor(address owner) {
-    _grantRole(DEFAULT_ADMIN_ROLE, owner);
-  }
-
-  function sendToken(address tokenAddr, address addr, uint256 amount) public onlyRole(DEFAULT_ADMIN_ROLE) {
-    IERC20Interface token = IERC20Interface(tokenAddr);
-    uint256 balance = token.balanceOf(address(this));
-    require(balance > 0, "token balance is 0");
-    require(balance >= amount, "amount is bigger than token balance");
-    token.transfer(addr, amount);
-  }
-
-  function sendEther(address addr, uint256 amount) public onlyRole(DEFAULT_ADMIN_ROLE) {
-    uint balance = address(this).balance;
-    require(balance > 0, "wallet is empty");
-    require(balance >= amount, "not enough funds in wallet");
-
-    (bool sent, ) = payable(addr).call{value: amount}("");
-    require(sent, "failed to send ether");
-  }
-
-  function _selfdestruct(address addr) public onlyRole(DEFAULT_ADMIN_ROLE) {
-    selfdestruct(payable(addr));
-  }
-
-
-  receive() external payable {
-  }
-
-  function setAllowance(address addr, uint256 amount, uint256 interval) public onlyRole(DEFAULT_ADMIN_ROLE) {
-    _faucetAllowances[addr] = FaucetAllowance({
-      amount: amount,
-      interval: interval
-    });
-  }
-
-  function getWithdrawnAmount(address addr, uint256 time) public view returns (uint256) {
-    uint256 withdrawalIndex = _faucetWithdrawalCount[addr];
-    uint256 amount = 0;
-    while(withdrawalIndex > 0) {
-      withdrawalIndex--;
-      FaucetWithdrawal memory withdrawal = _faucetWithdrawals[addr][withdrawalIndex];
-      if(withdrawal.time < time)
-        break;
-      amount += withdrawal.amount;
+    constructor(address owner) {
+        _grantRole(DEFAULT_ADMIN_ROLE, owner);
     }
-    return amount;
-  }
 
-  function getAllowance(address addr) public view returns (uint256) {
-    FaucetAllowance memory allowance = _faucetAllowances[addr];
-    uint256 amount = allowance.amount;
-    if(amount > 0) {
-      uint256 withdrawn = getWithdrawnAmount(addr, block.timestamp - allowance.interval);
-      if(withdrawn >= amount)
-        amount = 0;
-      else
-        amount -= withdrawn;
+    function sendToken(
+        address tokenAddr,
+        address addr,
+        uint256 amount
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        IERC20Interface token = IERC20Interface(tokenAddr);
+        uint256 balance = token.balanceOf(address(this));
+        require(balance > 0, "token balance is 0");
+        require(balance >= amount, "amount is bigger than token balance");
+        token.transfer(addr, amount);
     }
-    return amount;
-  }
 
-  function withdraw(uint256 amount) public {
-    uint256 allowance = getAllowance(msg.sender);
-    require(allowance > 0, "withdrawal denied");
-    require(amount <= allowance, "amount exceeds allowance");
-    require(amount <= address(this).balance, "amount exceeds vault balance");
+    function sendEther(
+        address addr,
+        uint256 amount
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        uint balance = address(this).balance;
+        require(balance > 0, "wallet is empty");
+        require(balance >= amount, "not enough funds in wallet");
 
-    uint256 withdrawalIndex = _faucetWithdrawalCount[msg.sender];
-    _faucetWithdrawals[msg.sender][withdrawalIndex] = FaucetWithdrawal({
-      time: block.timestamp,
-      amount: amount
-    });
-    _faucetWithdrawalCount[msg.sender] = withdrawalIndex + 1;
+        (bool sent, ) = payable(addr).call{value: amount}("");
+        require(sent, "failed to send ether");
+    }
 
-    emit FaucetWithdraw(msg.sender, block.timestamp, amount);
+    function _selfdestruct(address addr) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        selfdestruct(payable(addr));
+    }
 
-    (bool sent, ) = msg.sender.call{value: amount}("");
-    require(sent, "failed to send ether");
-  }
+    receive() external payable {}
 
+    function setAllowance(
+        address addr,
+        uint256 amount,
+        uint256 interval
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        _faucetAllowances[addr] = FaucetAllowance({
+            amount: amount,
+            interval: interval
+        });
+    }
+
+    function getWithdrawnAmount(
+        address addr,
+        uint256 time
+    ) public view returns (uint256) {
+        uint256 withdrawalIndex = _faucetWithdrawalCount[addr];
+        uint256 amount = 0;
+        while (withdrawalIndex > 0) {
+            withdrawalIndex--;
+            FaucetWithdrawal memory withdrawal = _faucetWithdrawals[addr][
+                withdrawalIndex
+            ];
+            if (withdrawal.time < time) break;
+            amount += withdrawal.amount;
+        }
+        return amount;
+    }
+
+    function getAllowance(address addr) public view returns (uint256) {
+        FaucetAllowance memory allowance = _faucetAllowances[addr];
+        uint256 amount = allowance.amount;
+        if (amount > 0) {
+            uint256 withdrawn = getWithdrawnAmount(
+                addr,
+                block.timestamp - allowance.interval
+            );
+            if (withdrawn >= amount) amount = 0;
+            else amount -= withdrawn;
+        }
+        return amount;
+    }
+
+    function withdraw(uint256 amount) public {
+        uint256 allowance = getAllowance(msg.sender);
+        require(allowance > 0, "withdrawal denied");
+        require(amount <= allowance, "amount exceeds allowance");
+        require(
+            amount <= address(this).balance,
+            "amount exceeds vault balance"
+        );
+
+        uint256 withdrawalIndex = _faucetWithdrawalCount[msg.sender];
+        _faucetWithdrawals[msg.sender][withdrawalIndex] = FaucetWithdrawal({
+            time: block.timestamp,
+            amount: amount
+        });
+        _faucetWithdrawalCount[msg.sender] = withdrawalIndex + 1;
+
+        emit FaucetWithdraw(msg.sender, block.timestamp, amount);
+
+        (bool sent, ) = msg.sender.call{value: amount}("");
+        require(sent, "failed to send ether");
+    }
 }

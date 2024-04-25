@@ -48,15 +48,17 @@ faucetHomeHtml: |
 # random secret string that is used by the faucet to "sign" session data, so sessions can be restored automatically by clients when faucet is restarted / crashed
 # use a random string and do not share / reuse it anywhere. Everyone knowing this secret is theoretically able to claim rewards from the faucet without mining.
 faucetSecret: 039372b19342465827ef19bf7ca954a37eabb4b0711daa607e267072815535d7a3e93959a7f495bb
+address: "0x49f5757e930C0A918436bE7188592979294309d6"
 
 # ETH execution layer RPC host
 # ethRpcHost: "http://127.0.0.1:8545/"
-ethRpcHost: https://xendfoundation-rpc.com
+ethRpcHost: https://for-test.xend.gotbit.app
 
 # faucet wallet private key (hex, without 0x prefix)
-ethWalletKey: 50b95c588f777ff1c6b33a47a084549a830a75cac8ef8c644ae110ff80e2e5cb
+ethWalletKey: "bb391128f38e7614a1d2c05e583dfe73e83d3279e5e84ba439ecd512ddfb414a"
+
 # EVM chain id (null for auto-detect from RPC)
-ethChainId:
+ethChainId: 42422
 # symbol (short name) of the coin that can be mined
 faucetCoinSymbol: XEND
 
@@ -78,10 +80,10 @@ ethLegacyTx: false
 
 # max transaction gas fee (in wei)
 # used as limit for legacy transactions (faucet won't build transactions with higher gas price)
-ethTxMaxFee: 100000000000  # 100 gwei
+ethTxMaxFee: 100000000000 # 100 gwei
 
 # max transaction priority fee (in wei)
-ethTxPrioFee: 2000000000  # 2 gwei
+ethTxPrioFee: 2000000000 # 2 gwei
 
 # max number of unconfirmed transactions to create simultaneously
 ethMaxPending: 12
@@ -90,30 +92,30 @@ ethMaxPending: 12
 ethQueueNoFunds: true
 
 # link to eth transaction explorer with {txid} as placeholder for transaction id or null for no link
+# TODO: fi
 ethTxExplorerLink: https://testnet.xendscan.com/transactions/{txid}
 
 # min/max drop amount (max is the default if no module lowers it)
-maxDropAmount: 1000000000000000000  # 1 ETH
-minDropAmount: 10000000000000000  # 0.01 ETH
+maxDropAmount: 1000000000000000000 # 1 ETH
+minDropAmount: 10000000000000000 # 0.01 ETH
 
 # maximum session time (from start till payout)
 # only relevant if one of the enabled protection mechanisms introduces a session delay (eg. mining)
-sessionTimeout: 43200  # 12h
+sessionTimeout: 43200 # 12h
 
 # session cleanup time
 # session data will be removed from the faucet DB after that time
-sessionCleanup: 2592000  # 30 days
+sessionCleanup: 2592000 # 30 days
 
 # session save time
 # how often session updates will be written to DB
 sessionSaveTime: 120
 ### Protection mechanisms
 modules:
-
   ## Captcha Protection
   captcha:
     # enable / disable captcha protection
-    enabled: true
+    enabled: false
 
     # captcha provider
     # hcaptcha:  HCaptcha (https://hcaptcha.com)
@@ -137,7 +139,7 @@ modules:
     enabled: true
 
     # RPC Host for ENS name resolver (mainnet)
-    rpcHost: https://rpc.flashbots.net/
+    rpcHost: https://for-test.xend.gotbit.app/
     # Custom ENS Resolver contract address
     # ensAddr: "0x"
     # require ENS name
@@ -152,7 +154,7 @@ modules:
     apiUrl: http://ip-api.com/json/{ip}?fields=21155839
 
     # ip info caching time
-    cacheTime: 86400  # 1 day
+    cacheTime: 86400 # 1 day
 
     # require valid ip info (throw error if lookup failed)
     required: false
@@ -179,7 +181,7 @@ modules:
     enabled: true
 
     # check balance and deny session if balance exceeds the limit (in wei)
-    maxBalance: 50000000000000000000  # 50 ETH
+    maxBalance: 50000000000000000000 # 50 ETH
 
     # deny sessions for contract addresses
     denyContract: true
@@ -191,14 +193,14 @@ modules:
 
     # reward restriction based on faucet wallet balance. lowest value applies
     fixedRestriction:
-      1000000000000000000000: 90  # 90% if lower than 1000 ETH
-      100000000000000000000: 10  # 10% if lower than 100 ETH
+      1000000000000000000000: 90 # 90% if lower than 1000 ETH
+      100000000000000000000: 10 # 10% if lower than 100 ETH
 
     # dynamic reward restriction based on faucet balance
     # alternative to fixedRestriction, if both are set, the lower factor gets applied
     # limits the rewards linearly according to the faucet balance (100% >= targetBalance, 0% <= spareFundsAmount)
     dynamicRestriction:
-      targetBalance: 1100000000000000000000  # no restriction with faucet balance > 1100 ETH
+      targetBalance: 1100000000000000000000 # no restriction with faucet balance > 1100 ETH
   ## Faucet Outflow module
   faucet-outflow:
     # enable / disable faucet outflow protection
@@ -214,11 +216,11 @@ modules:
     # Whenever the balance gets positive, there is less mining activity than allowed. The positive balance is a 'buffer' for activity spikes, anything above upperLimit gets burned.
 
     # limit outflow to 1000ETH per day
-    amount: 1000000000000000000000  # 1000 ETH
-    duration: 86400  # 1 day
+    amount: 1000000000000000000000 # 1000 ETH
+    duration: 86400 # 1 day
     # outflow balance limits
-    lowerLimit: -500000000000000000000  # -500 ETH (when outflow balance gets smaller or equal to this, the reward will be 0%)
-    upperLimit: 500000000000000000000  # 500 ETH
+    lowerLimit: -500000000000000000000 # -500 ETH (when outflow balance gets smaller or equal to this, the reward will be 0%)
+    upperLimit: 500000000000000000000 # 500 ETH
 
   ## Github login protection
   github:
@@ -226,32 +228,32 @@ modules:
     enabled: false
 
     # github api credentials
-    appClientId: ''  # client id from github app
-    appSecret: ''  # app secret from github app
+    appClientId: "" # client id from github app
+    appSecret: "" # app secret from github app
 
     # authentication timeout
     authTimeout: 86400
 
     # github account checks
     checks:
-      - minAccountAge: 604800  # min account age (7 days)
-        minRepoCount: 10  # min number of repositories (includes forked ones)
-        minFollowers: 10  # min number of followers
-        minOwnRepoCount: 5  # min number of own repos (non-forked)
-        minOwnRepoStars: 5  # min number of stars on own repos (non-forked)
-        required: true  # require passing this check or throw error
-        message: Your github account does not meet the minimum requirements  # custom error message
+      - minAccountAge: 604800 # min account age (7 days)
+        minRepoCount: 10 # min number of repositories (includes forked ones)
+        minFollowers: 10 # min number of followers
+        minOwnRepoCount: 5 # min number of own repos (non-forked)
+        minOwnRepoStars: 5 # min number of stars on own repos (non-forked)
+        required: true # require passing this check or throw error
+        message: Your github account does not meet the minimum requirements # custom error message
       - minFollowers: 50
         minOwnRepoCount: 10
         minOwnRepoStars: 1000
-        rewardFactor: 2  # double reward if account looks trustful
+        rewardFactor: 2 # double reward if account looks trustful
 
     # recurring restrictions based on github account
     restrictions:
       # max 10 sessions / 10 ETH per day for each github account
       - limitCount: 10
-        limitAmount: 10000000000000000000  # 10 ETH
-        duration: 86400  # 1 day
+        limitAmount: 10000000000000000000 # 10 ETH
+        duration: 86400 # 1 day
 
   ## Mainnet Wallet module
   mainnet-wallet:
@@ -259,10 +261,10 @@ modules:
     enabled: false
 
     # RPC host for mainnet
-    rpcHost: https://rpc.flashbots.net/
+    rpcHost: https://for-test.xend.gotbit.app/
 
     # require minimum balance on mainnet wallet
-    minBalance: 10000000000000000  # 0.01 ETH
+    minBalance: 10000000000000000 # 0.01 ETH
 
     # require minimum number of transactions from mainnet wallet (nonce count)
     minTxCount: 5
@@ -271,22 +273,22 @@ modules:
   recurring-limits:
     # enable / disable recurring limits protection
     enabled: true
-    limits:  # array of individual limits, which all need to be passed
+    limits: # array of individual limits, which all need to be passed
       - limitCount: 10
-        limitAmount: 10000000000000000000  # 10 ETH
-        duration: 86400  # 1 day 
+        limitAmount: 10000000000000000000 # 10 ETH
+        duration: 86400 # 1 day
       - limitCount: 20
-        limitAmount: 20000000000000000000  # 20 ETH
-        duration: 172800  # 2 days
+        limitAmount: 20000000000000000000 # 20 ETH
+        duration: 172800 # 2 days
         byAddrOnly: true
 
   ## Concurrency Limit module
   concurrency-limit:
     # enable / disable concurrency limit
     enabled: true
-    concurrencyLimit: 1  # only allow 1 concurrent session (sessions in 'running' state at the same time for the same ip / target addr)
-    byAddrOnly: false  # only check concurrency by target address
-    byIPOnly: false  # only check concurrency by IP address
+    concurrencyLimit: 1 # only allow 1 concurrent session (sessions in 'running' state at the same time for the same ip / target addr)
+    byAddrOnly: false # only check concurrency by target address
+    byIPOnly: false # only check concurrency by IP address
     # messageByAddr: ""  #  custom error message when limit is exceeded by same target address
     # messageByIP: ""  #  custom error message when limit is exceeded by same IP address
 
@@ -297,32 +299,32 @@ modules:
 
     # reward amount per eligible hash (in wei)
     # powShareReward: 12500000000000000  #  0.0125
-    powShareReward: 2000000000000000  # 0.002 ETH
+    powShareReward: 2000000000000000 # 0.002 ETH
 
     # penalty for not responding to a verification request (percent of powShareReward)
     # shouldn't be too high as this can happen regularily in case of connection loss or so
-    verifyMinerMissPenaltyPerc: 10  # 10% of powShareReward
+    verifyMinerMissPenaltyPerc: 10 # 10% of powShareReward
 
     # reward for responding to a verification request in time (percent of powShareReward)
     # some extra reward for slow miners
     # comment out to disable rewards for verification requests
-    verifyMinerRewardPerc: 15  # 15% of powShareReward
+    verifyMinerRewardPerc: 15 # 15% of powShareReward
 
     # maximum mining session time (in seconds)
-    powSessionTimeout: 18000  # 5h
+    powSessionTimeout: 18000 # 5h
 
     # maximum number of seconds a session can idle until it gets closed
-    powIdleTimeout: 1800  # 30min
+    powIdleTimeout: 1800 # 30min
 
     # maximum allowed mining hashrate (will be throttled to this rate when faster)
-    powHashrateSoftLimit: 1000  # soft limit (enforced client side)
-    powHashrateHardLimit: 1100  # hard limit (reject shares with too high nonces)
+    powHashrateSoftLimit: 1000 # soft limit (enforced client side)
+    powHashrateHardLimit: 1100 # hard limit (reject shares with too high nonces)
 
     # number of 0-bits the scrypt hash needs to start with to be eligible for a reward
     powDifficulty: 11
 
     # mining algorithm to use
-    powHashAlgo: argon2  # scrypt / cryptonight / argon2
+    powHashAlgo: argon2 # scrypt / cryptonight / argon2
 
     # pow module settings have been trimmed for readability.
     # you can find all available settings on https://github.com/pk910/PoWFaucet/wiki/Operator-Wiki#module-pow
@@ -330,17 +332,17 @@ modules:
   ## Passport protection
   passport:
     enabled: false
-    scorerApiKey: ''  # Gitcoin Passport Scorer API Key
+    scorerApiKey: "" # Gitcoin Passport Scorer API Key
     trustedIssuers:
-      - did:key:z6MkghvGHLobLEdj1bgRLhS4LPGJAvbMA1tn2zcRyqmYU5LC  # Gitcoin Passport
+      - did:key:z6MkghvGHLobLEdj1bgRLhS4LPGJAvbMA1tn2zcRyqmYU5LC # Gitcoin Passport
     passportCachePath: passport-cache
-    refreshCooldown: 300  # allow refreshing every 5mins
-    cacheTime: 86400  # cache passports for 1 day (does not affect manual refreshing)
-    stampDeduplicationTime: 604800  # allow reusing a stamp in another passport after 7 days
+    refreshCooldown: 300 # allow refreshing every 5mins
+    cacheTime: 86400 # cache passports for 1 day (does not affect manual refreshing)
+    stampDeduplicationTime: 604800 # allow reusing a stamp in another passport after 7 days
     boostFactor:
-      1: 1.1  # x1.1 if score >= 1
-      5: 1.5  # x1.5 if score >= 5
-      10: 2  # x2 if score >= 10
+      1: 1.1 # x1.1 if score >= 1
+      5: 1.5 # x1.5 if score >= 5
+      10: 2 # x2 if score >= 10
     stampScoring:
       Google: 1
       Twitter: 1
@@ -409,16 +411,16 @@ modules:
 ### Fund Management
 
 # minimum balance to keep in the faucet wallet (in wei)
-spareFundsAmount: 100000000000000000  # 0.1 ETH
+spareFundsAmount: 100000000000000000 # 0.1 ETH
 
 # minimum balance to show the empty faucet error message
-noFundsBalance: 1000000000000000000  # 1 ETH
+noFundsBalance: 1000000000000000000 # 1 ETH
 
 # minimum balance to show the low funds warning
-lowFundsBalance: 10000000000000000000  # 10 ETH
+lowFundsBalance: 10000000000000000000 # 10 ETH
 
 # low faucet balance warning message / false to disable the warning
-lowFundsWarning: 'The faucet is running out of funds! Faucet Balance: {1}'
+lowFundsWarning: "The faucet is running out of funds! Faucet Balance: {1}"
 
 # empty faucet error message / false to disable the error
 noFundsError: Sorry, the faucet is out of funds :(
@@ -459,7 +461,7 @@ buildSeoMeta:
 resultSharing:
   # preHtml: |
   #   <div class="sh-opt">
-  #     Did you like the faucet? Give that project a 
+  #     Did you like the faucet? Give that project a
   #     <iframe src="https://ghbtns.com/github-btn.html?user=pk910&repo=PoWFaucet&type=star&count=true" frameborder="0" scrolling="0" width="150" height="20" title="GitHub"></iframe>
   #   </div>
   # postHtml: |
@@ -468,7 +470,9 @@ resultSharing:
   # caption: "Or support this faucet by sharing your result with a "
 
   # result sharing buttons
-  twitter: 'Boom! Just got {amount} XEND from {url} (Mining for {duration} with {hashrate}
-    H/s) # xend # faucet'
-  mastodon: Boom! Just got {amount} XEND from {url} (Mining for {duration} with {hashrate}
+  twitter:
+    "Boom! Just got {amount} XEND from {url} (Mining for {duration} with {hashrate}
+    H/s) # xend # faucet"
+  mastodon:
+    Boom! Just got {amount} XEND from {url} (Mining for {duration} with {hashrate}
     H/s)

@@ -92,12 +92,11 @@ ethMaxPending: 12
 ethQueueNoFunds: true
 
 # link to eth transaction explorer with {txid} as placeholder for transaction id or null for no link
-# TODO: fi
-ethTxExplorerLink: https://testnet.xendscan.com/transactions/{txid}
+ethTxExplorerLink: https://gotbit-testnetxend-chain-frontend-dev.dev.gotbit.app/address/{txid}
 
 # min/max drop amount (max is the default if no module lowers it)
 maxDropAmount: 1000000000000000000 # 1 ETH
-minDropAmount: 10000000000000000 # 0.01 ETH
+minDropAmount: 100000000000000 # 0.01 ETH
 
 # maximum session time (from start till payout)
 # only relevant if one of the enabled protection mechanisms introduces a session delay (eg. mining)

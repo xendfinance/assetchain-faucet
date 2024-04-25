@@ -19,7 +19,7 @@ serverPort: 3000
 httpProxyCount: 0
 
 # title of the faucet
-faucetTitle: Xend PoW Faucet
+faucetTitle: Xend RWA PoW Faucet
 
 # url to image displayed on the startpage
 faucetImage: /images/xend_faucet.png
@@ -28,16 +28,16 @@ faucetImage: /images/xend_faucet.png
 faucetHomeHtml: |
   <div class='pow-info'>
     <h5>What is a PoW Faucet?</h5>
-    This is an XEND Faucet running on the Xend Testnet.<br>
+    This is an $RWA Faucet running on the Xend Testnet.<br>
     To prevent malicious actors from exhausting all available funds or 
-    accumulating enough XEND to mount long running spam attacks, 
+    accumulating enough $RWA to mount long running spam attacks, 
     this faucet requires some mining work to be done in exchange for 
     free testnet funds.
   </div>
   <div class='pow-info'>
     <h5>How does this work?</h5>
     Just enter your XEND Address and start mining. 
-    When you've collected enough XEND, stop mining and claim your rewards.
+    When you've collected enough $RWA, stop mining and claim your rewards.
   </div>
   <div class='pow-info'>
     <h5>How to help the faucet?</h5>
@@ -60,7 +60,7 @@ ethWalletKey: "bb391128f38e7614a1d2c05e583dfe73e83d3279e5e84ba439ecd512ddfb414a"
 # EVM chain id (null for auto-detect from RPC)
 ethChainId: 42422
 # symbol (short name) of the coin that can be mined
-faucetCoinSymbol: XEND
+faucetCoinSymbol: RWA
 
 # type of coin that can be mined
 # native = native coin (ETH)
@@ -456,7 +456,7 @@ faucetStats:
 buildSeoIndex: true
 # some additional meta tags to add to the SEO optimized page
 buildSeoMeta:
-  keywords: powfaucet,faucet,xend,xend faucet,evm,vit,pow
+  keywords: powfaucet,faucet,xend,xend faucet,evm,vit,pow,rwa
 resultSharing:
   # preHtml: |
   #   <div class="sh-opt">
@@ -470,8 +470,8 @@ resultSharing:
 
   # result sharing buttons
   twitter:
-    "Boom! Just got {amount} XEND from {url} (Mining for {duration} with {hashrate}
-    H/s) # xend # faucet"
+    "Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
+    H/s) # rwa # xend # faucet"
   mastodon:
-    Boom! Just got {amount} XEND from {url} (Mining for {duration} with {hashrate}
+    Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
     H/s)

@@ -92,7 +92,7 @@ ethMaxPending: 12
 ethQueueNoFunds: true
 
 # link to eth transaction explorer with {txid} as placeholder for transaction id or null for no link
-ethTxExplorerLink: https://gotbit-testnetxend-chain-frontend-dev.dev.gotbit.app/address/{txid}
+ethTxExplorerLink: https://gotbit-testnetxend-chain-frontend-dev.dev.gotbit.app/tx/{txid}
 
 # min/max drop amount (max is the default if no module lowers it)
 maxDropAmount: 1000000000000000000 # 1 ETH

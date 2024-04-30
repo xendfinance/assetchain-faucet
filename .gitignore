@@ -1,0 +1,21 @@
+.nyc_output/
+bin/
+build/
+bundle/
+coverage/
+dist/
+node_modules/
+static/index.seo.html
+static/css/powfaucet*
+static/js/powfaucet*
+faucet-config.json
+faucet-status.json
+faucet-status.yaml
+faucet-store.*
+faucet-stats.log
+faucet-events.log
+faucet-pid.txt
+tmp*
+
+# Ignore the .DS_Store files in all directories
+**/.DS_Store

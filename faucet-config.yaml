@@ -22,7 +22,7 @@ httpProxyCount: 0
 faucetTitle: Asset Chain (RWA) PoW
 
 # url to image displayed on the startpage
-faucetImage: /images/xend_faucet.png
+faucetImage: /images/xend_faucet.svg
 
 # some additional html to show on the startpage
 faucetHomeHtml: |

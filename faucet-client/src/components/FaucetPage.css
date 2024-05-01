@@ -33,6 +33,10 @@ body {
 	margin: 0 16px;
 }
 
+.faucet-page {
+	margin: 48px 8px 8px 32px;
+}
+
 .faucet-page .inline-spinner .spinner {
 	height: 20px;
 	margin: 0 8px;

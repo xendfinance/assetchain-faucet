@@ -19,7 +19,7 @@ serverPort: 3000
 httpProxyCount: 0
 
 # title of the faucet
-faucetTitle: Xend RWA PoW Faucet
+faucetTitle: Asset Chain (RWA) PoW
 
 # url to image displayed on the startpage
 faucetImage: /images/xend_faucet.png
@@ -469,9 +469,7 @@ resultSharing:
   # caption: "Or support this faucet by sharing your result with a "
 
   # result sharing buttons
-  twitter:
-    "Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
+  twitter: "Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
     H/s) # rwa # xend # faucet"
-  mastodon:
-    Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
+  mastodon: Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
     H/s)

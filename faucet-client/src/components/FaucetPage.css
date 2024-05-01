@@ -1,256 +1,386 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lexend:wght@100..900&display=swap");
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	color: #fff;
 }
 
 .faucet-wrapper {
-  min-height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f0f0f0;
+	min-height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #070e17;
 }
 
 .faucet-container {
-  padding: 8px;
-  margin: 8px;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  max-width: 100vw;
+	padding: 8px;
+	margin: 8px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	transition: 0.3s;
+	max-width: 100vw;
 }
 
 .faucet-loading .loading-spinner {
-  padding: 16px 0;
+	padding: 16px 0;
 }
 
 .faucet-loading .loading-spinner .spinner {
-  height: 30px;
-  margin: 0 16px;
+	height: 30px;
+	margin: 0 16px;
+}
+
+.faucet-page {
+	margin: 48px 8px 8px 32px;
 }
 
 .faucet-page .inline-spinner .spinner {
-  height: 20px;
-  margin: 0 8px;
+	height: 20px;
+	margin: 0 8px;
 }
 
 .faucet-page .faucet-notifications {
-  position: fixed;
-  bottom: 0;
-  right: 0;
+	position: fixed;
+	bottom: 0;
+	right: 0;
 }
 
 .faucet-page .faucet-notifications .faucet-notification .alert {
-  padding: 8px;
-  min-width: 300px;
+	padding: 8px;
+	min-width: 300px;
 }
 
 .faucet-page .faucet-footer {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 4px;
-  font-size: 12px;
-  color: #343a40;
-  pointer-events: none;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	padding: 4px;
+	font-size: 12px;
+	color: #343a40;
+	pointer-events: none;
 }
 
-
-
 .faucet-page .faucet-frontimage {
-  text-align: center;
-  padding: 0 8px;
+	text-align: center;
+	padding: 0 8px;
+}
+
+.pow-status-image img {
+	width: 170px;
+	height: 270px;
+}
+
+.pow-status-image {
+	display: flex;
+	justify-content: center;
+}
+
+.claim-page {
+	color: #fff;
+	padding: 12px;
+	background-color: #0b131e;
+	border: 1px solid #1e2643;
+	border-radius: 10px;
 }
 
 .faucet-page .faucet-frontimage .image {
-  width: 100%;
+	width: 100%;
 }
 
 .faucet-page .faucet-image {
-  margin: 8px 8px 8px 8px;
-}
- 
-@media screen and (max-height:700px) {
-  .faucet-page .faucet-image {
-    display:none;
-  }
+	margin: 8px 8px 8px 8px;
 }
 
+@media screen and (max-height: 700px) {
+	.faucet-page .faucet-image {
+		display: none;
+	}
+}
 
 .faucet-page {
-  width: 450px;
+	width: 450px;
 }
 
-.faucet-page:has(.page-mining), .faucet-page:has(.page-frontpage) {
-  width: 450px;
+.page-card {
+	padding: 12px 0px 20px 0px;
+	background-color: #0b131e;
+	border: 1px solid #1e2643;
+	border-radius: 10px;
 }
 
-.faucet-page:has(.page-claim), .faucet-page:has(.page-details) {
-  width: 600px;
+.faucet-page:has(.page-mining),
+.faucet-page:has(.page-frontpage) {
+	width: 450px;
+}
+
+.faucet-page:has(.page-claim),
+.faucet-page:has(.page-details) {
+	width: 600px;
 }
 
 .faucet-page:has(.faucet-status) {
-  width: auto;
+	width: auto;
 }
 
-
 .faucet-page .faucet-status-alerts {
-  position: relative
+	position: relative;
 }
 
 .faucet-page .faucet-inputs {
-  margin: 18px 8px 0 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+}
+.faucet-inputs input {
+	width: 365px;
+	height: 52px;
+	border-radius: 5px;
+	background: #070e17;
+	border: 1px solid #1e2643;
+}
+
+.faucet-inputs input::placeholder {
+	text-align: center;
+	color: #68718f !important;
 }
 
 .faucet-page .faucet-actions {
-  margin: 8px 0;
+	margin: 8px 0;
 }
 
 .faucet-page .faucet-actions button {
-  width: 100%;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  cursor: pointer;
+	width: 100%;
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	cursor: pointer;
 }
 
 .faucet-page .faucet-actions button.start-action {
-  background-color: #4CAF50;
+	background-color: #2042b8;
+	width: 230px;
+	height: 52px;
+	border-radius: 100px;
 }
 
 .faucet-page .faucet-actions button.stop-action {
-  background-color: #af4c4c;
+	background-color: #2042b8;
+	border-radius: 100px;
 }
 
 .faucet-page .faucet-actions button:disabled {
-  background-color: gray;
-  color: #ccc;
-  cursor: wait;
+	background-color: gray;
+	color: #ccc;
+	cursor: wait;
 }
 
 .faucet-page .faucet-captcha {
-  margin-top: 8px;
+	margin-top: 8px;
 }
 
 .faucet-page .page-frontpage .faucet-captcha {
-  text-align: center;
+	text-align: center;
 }
 
 .faucet-page .faucet-captcha > div {
-  display: inline-block;
+	display: inline-block;
 }
 
 .faucet-page .faucet-title {
-  position: relative;
+	text-align: center;
+	color: #fff;
+	position: relative;
+}
+
+.faucet-title .center {
+	font-weight: 700;
+	font-family: "Fira Sans";
+}
+
+.faucet-title p {
+	font-weight: 700;
+	color: #c5d2ff;
+	font-family: "Fira Sans";
+	font-style: italic;
 }
 
 .faucet-page .faucet-title .faucet-status-link {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 50px;
-  height: 50px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 50px;
+	height: 50px;
 }
 
 .faucet-page .pow-header {
-  position: relative;
+	position: relative;
 }
 
-
 .faucet-page .txhash {
-  font-size: 9pt;
-  margin: 0 4px;
+	font-size: 9pt;
+	margin: 0 4px;
 }
 
 .faucet-page .action-btn {
-  width: 100%;
+	width: 100%;
 }
 
 .faucet-page .pow-status {
-  height: 100%;
-  background-color: white;
-  border: 1px solid darkgray;
-  padding: 8px;
+	height: 100%;
+	padding: 12px 0px 20px 0px;
+	background-color: #0b131e;
+	border: 1px solid #1e2643;
+	border-radius: 10px;
+	padding: 8px;
+	color: #fff;
 }
 
 .faucet-page .pow-status .pow-status-addr {
-  margin-bottom: 8px;
+	margin-bottom: 8px;
 }
 
 .faucet-page .pow-status .pow-status-addr .status-title {
-  margin-left: 24px;
+	margin-left: 24px;
 }
 
 .faucet-page .pow-status .pow-status-addr .status-value {
-  text-align: center;
+	text-align: center;
 }
 
 .faucet-page .pow-status .pow-status-top .status-title {
-  text-align: center;
+	text-align: center;
 }
 
 .faucet-page .pow-status .pow-status-top .status-value {
-  text-align: center;
-  font-size: 28px;
+	text-align: center;
+	font-size: 28px;
 }
 
 .faucet-page .pow-status .pow-status-spacer {
-  height: 16px;
+	height: 16px;
 }
 
 .faucet-page .pow-status .pow-status-other {
-  margin-top: 4px;
+	margin-top: 4px;
+	padding: 0 16px;
 }
 
 .faucet-page .pow-status .pow-worker-controls button {
-  width: 27px;
-  margin-right: 6px;
-  border-radius: 15px;
-  height: 20px;
-  padding: 0;
+	width: 27px;
+	margin-right: 6px;
+	border-radius: 15px;
+	height: 20px;
+	padding: 0;
+}
+
+.pow-worker-controls {
+	display: flex;
 }
 
 .faucet-page .pow-status .pow-passport-controls button {
-  width: 75px;
-  margin-right: 6px;
-  border-radius: 15px;
-  height: 20px;
-  padding: 0;
+	width: 75px;
+	margin-right: 6px;
+	border-radius: 15px;
+	height: 20px;
+	padding: 0;
 }
 
 .spinner-alert .spinner-text {
-  vertical-align: top;
-  margin-left: 12px;
+	vertical-align: top;
+	margin-left: 12px;
 }
 
 .faucet-page .faucet-status {
-  max-width: none;
+	max-width: none;
 }
 
 .faucet-page .faucet-status .status-panel {
-  margin-bottom: 8px;
+	margin-bottom: 8px;
 }
 
 .faucet-page .faucet-status .ipaddr-icon {
-  margin-right: 8px;
+	margin-right: 8px;
+}
+
+.faucet-descr-title {
+	font-family: "Fira Sans";
+	margin-top: 28px;
+	font-size: 24px;
+	color: #7891ad;
+	font-weight: 700;
+}
+
+.faucet-descr {
+	font-family: "Fira Sans";
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
 }
 
 .faucet-page .faucet-description {
-  font-size: 11pt;
-  color: #343a40;
-  margin-top: 16px;
+	font-size: 11pt;
+	color: #343a40;
+	margin-top: 16px;
 }
 
 .faucet-page .faucet-description .pow-info {
-  margin-top: 8px;
+	margin-top: 8px;
 }
 
 .modal-dialog.modal-700px {
-  max-width: 700px;
+	max-width: 700px;
+}
+
+.modal-content {
+	background-color: #1e2643;
+	color: #fff;
+}
+
+.dropdown-info {
+	background: #0b131e;
+	padding: 16px;
+	width: 100%;
+	border-radius: 10px;
+}
+
+.dropdown-title {
+	display: flex;
+	justify-content: space-between;
+}
+
+.dropdown-title h3 {
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 0;
+}
+
+.dropdown-content {
+	margin-top: 12px;
+	color: #a1abcd;
+	font-size: 14px;
+	line-height: 16.8px;
+	font-weight: 600;
+}
+
+.btn-sm {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.page-claim .container {
+	padding: 12px;
+	background-color: #0b131e;
+	border: 1px solid #1e2643;
+	border-radius: 10px;
 }

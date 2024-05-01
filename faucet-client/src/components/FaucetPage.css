@@ -141,6 +141,7 @@ body {
 
 .faucet-inputs input::placeholder {
 	text-align: center;
+	color: #68718f !important;
 }
 
 .faucet-page .faucet-actions {

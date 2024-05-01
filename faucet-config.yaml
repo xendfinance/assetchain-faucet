@@ -19,10 +19,10 @@ serverPort: 3000
 httpProxyCount: 0
 
 # title of the faucet
-faucetTitle: Xend RWA PoW Faucet
+faucetTitle: Asset Chain (RWA) PoW
 
 # url to image displayed on the startpage
-faucetImage: /images/xend_faucet.png
+faucetImage: /images/xend_faucet.svg
 
 # some additional html to show on the startpage
 faucetHomeHtml: |
@@ -52,13 +52,13 @@ address: "0x49f5757e930C0A918436bE7188592979294309d6"
 
 # ETH execution layer RPC host
 # ethRpcHost: "http://127.0.0.1:8545/"
-ethRpcHost: https://for-test.xend.gotbit.app
+ethRpcHost: https://rpctestnet.xendrwachain.com
 
 # faucet wallet private key (hex, without 0x prefix)
 ethWalletKey: "bb391128f38e7614a1d2c05e583dfe73e83d3279e5e84ba439ecd512ddfb414a"
 
 # EVM chain id (null for auto-detect from RPC)
-ethChainId: 42422
+ethChainId: 42421
 # symbol (short name) of the coin that can be mined
 faucetCoinSymbol: RWA
 
@@ -469,9 +469,7 @@ resultSharing:
   # caption: "Or support this faucet by sharing your result with a "
 
   # result sharing buttons
-  twitter:
-    "Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
+  twitter: "Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
     H/s) # rwa # xend # faucet"
-  mastodon:
-    Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
+  mastodon: Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
     H/s)

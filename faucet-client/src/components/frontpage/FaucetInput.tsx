@@ -36,7 +36,7 @@ export class FaucetInput extends React.PureComponent<IFaucetInputProps, IFaucetI
 		if (this.props.faucetConfig.modules.ensname?.required) {
 			inputTypes.push("ENS name");
 		} else {
-			inputTypes.push("RWA address");
+			inputTypes.push("Asset Chain address");
 			if (this.props.faucetConfig.modules.ensname) inputTypes.push("ENS name");
 		}
 

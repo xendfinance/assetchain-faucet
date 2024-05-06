@@ -5,13 +5,13 @@ version: 2
 # faucet database (defaults to local sqlite)
 database:
   driver: sqlite
-  file: faucet-store.db
+  file: new-faucet-store.db
 
 # logfile for faucet events (comment out for no logging)
 faucetLogFile: faucet-events.log
 
 # path to file to write the process pid to (comment out to disable)
-faucetPidFile: faucet-pid.txt
+#faucetPidFile: 11faucet-pid.txt
 
 # faucet http/ws server port
 serverPort: 3000
@@ -57,8 +57,8 @@ ethWalletKey: "796eaa6c23399913f1724969d0cf572769c64cc93eadf276a544a4c3eb90cd48"
 
 # EVM chain id (null for auto-detect from RPC)
 ethChainId: 42421
-# symbol (short name) of the coin that can be mined
 faucetCoinSymbol: RWA
+# symbol (short name) of the coin that can be mined
 
 # type of coin that can be mined
 # native = native coin (ETH)
@@ -316,13 +316,12 @@ modules:
     # maximum allowed mining hashrate (will be throttled to this rate when faster)
     powHashrateSoftLimit: 1000 # soft limit (enforced client side)
     powHashrateHardLimit: 1100 # hard limit (reject shares with too high nonces)
-
     # number of 0-bits the scrypt hash needs to start with to be eligible for a reward
     powDifficulty: 11
 
     # mining algorithm to use
     powHashAlgo: argon2 # scrypt / cryptonight / argon2
-
+    powPingInterval: 60
     # pow module settings have been trimmed for readability.
     # you can find all available settings on https://github.com/pk910/PoWFaucet/wiki/Operator-Wiki#module-pow
 

@@ -6,6 +6,7 @@ version: 2
 database:
   driver: sqlite
   file: faucet-store.db
+
 # logfile for faucet events (comment out for no logging)
 faucetLogFile: faucet-events.log
 
@@ -52,7 +53,8 @@ address: "0x49f5757e930C0A918436bE7188592979294309d6"
 
 # ETH execution layer RPC host
 # ethRpcHost: "http://127.0.0.1:8545/"
-ethRpcHost: https://rpctestnet.xendrwachain.com
+# ethRpcHost: https://rpctestnet.xendrwachain.com
+ethRpcHost: "https://rpctestnet.xendrwachain.com/"
 
 # faucet wallet private key (hex, without 0x prefix)
 ethWalletKey: "bb391128f38e7614a1d2c05e583dfe73e83d3279e5e84ba439ecd512ddfb414a"
@@ -469,7 +471,9 @@ resultSharing:
   # caption: "Or support this faucet by sharing your result with a "
 
   # result sharing buttons
-  twitter: "Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
+  twitter:
+    "Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
     H/s) # rwa # xend # faucet"
-  mastodon: Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
+  mastodon:
+    Boom! Just got {amount} $RWA from {url} (Mining for {duration} with {hashrate}
     H/s)

@@ -22,11 +22,11 @@ export interface IFrontPageState {
 const dropdown = [
 	{
 		title: "What is a PoW Faucet?",
-		desc: "This is an $RWA Faucet running on the Xend Testnet. To prevent malicious actors from exhausting all available funds or accumulating enough $RWA to mount long running spam attacks, this faucet requires some mining work to be done in exchange for free testnet funds.",
+		desc: "This is an $RWA Faucet running on the Asset Chain Testnet. To prevent malicious actors from exhausting all available funds or accumulating enough $RWA to mount long running spam attacks, this faucet requires some mining work to be done in exchange for free testnet funds.",
 	},
 	{
 		title: "How does this work?",
-		desc: `Just enter your XEND Address and start mining. When you've collected enough $RWA, stop mining and claim your rewards.`,
+		desc: `Just enter your Asset Chain Address and start mining. When you've collected enough $RWA, stop mining and claim your rewards.`,
 	},
 	{
 		title: "How to help the faucet?",
@@ -46,11 +46,11 @@ export class FrontPage extends React.PureComponent<IFrontPageProps, IFrontPageSt
 			dropdown: [
 				{
 					title: "What is a PoW Faucet?",
-					desc: "This is an $RWA Faucet running on the Xend Testnet. To prevent malicious actors from exhausting all available funds or accumulating enough $RWA to mount long running spam attacks, this faucet requires some mining work to be done in exchange for free testnet funds.",
+					desc: "This is an $RWA Faucet running on the Asset Chain Testnet. To prevent malicious actors from exhausting all available funds or accumulating enough $RWA to mount long running spam attacks, this faucet requires some mining work to be done in exchange for free testnet funds.",
 				},
 				{
 					title: "How does this work?",
-					desc: `Just enter your XEND Address and start mining. When you've collected enough $RWA, stop mining and claim your rewards.`,
+					desc: `Just enter your Asset Chain Address and start mining. When you've collected enough $RWA, stop mining and claim your rewards.`,
 				},
 				{
 					title: "How to help the faucet?",

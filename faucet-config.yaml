@@ -48,7 +48,7 @@ faucetHomeHtml: |
 
 # random secret string that is used by the faucet to "sign" session data, so sessions can be restored automatically by clients when faucet is restarted / crashed
 # use a random string and do not share / reuse it anywhere. Everyone knowing this secret is theoretically able to claim rewards from the faucet without mining.
-faucetSecret: 0x796eaa6c23399913f1724969d0cf572769c64cc93eadf276a544a4c3eb90cd48
+faucetSecret: "796eaa6c23399913f1724969d0cf572769c64cc93eadf276a544a4c3eb90cd48"
 address: "0xC4Ce40a04651599bb9366122CC748DA0705467e6"
 
 # ETH execution layer RPC host
@@ -60,8 +60,8 @@ ethRpcHost: "https://rpctestnet.xendrwachain.com/"
 ethWalletKey: "796eaa6c23399913f1724969d0cf572769c64cc93eadf276a544a4c3eb90cd48"
 
 # EVM chain id (null for auto-detect from RPC)
-ethChainId: 42421
 # symbol (short name) of the coin that can be mined
+ethChainId: 42421
 faucetCoinSymbol: RWA
 
 # type of coin that can be mined
@@ -88,7 +88,7 @@ ethTxMaxFee: 10000000000000 # 100 gwei
 ethTxPrioFee: 2000000000000 # 2 gwei
 
 # max number of unconfirmed transactions to create simultaneously
-ethMaxPending: 1
+ethMaxPending: 12
 
 # queue transactions and wait for funding when faucet is out of funds (show "No Funds" error when false)
 ethQueueNoFunds: true

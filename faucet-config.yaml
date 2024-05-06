@@ -258,7 +258,7 @@ modules:
     enabled: false
 
     # RPC host for mainnet
-    rpcHost: https://for-test.xend.gotbit.app/
+    rpcHost: https://rpcmainnet.xendrwachain.com
 
     # require minimum balance on mainnet wallet
     minBalance: 10000000000000000 # 0.01 ETH
@@ -269,7 +269,7 @@ modules:
   ## Recurring Limits module
   recurring-limits:
     # enable / disable recurring limits protection
-    enabled: true
+    enabled: false
     limits: # array of individual limits, which all need to be passed
       - limitCount: 10
         limitAmount: 10000000000000000000 # 10 ETH
@@ -282,8 +282,8 @@ modules:
   ## Concurrency Limit module
   concurrency-limit:
     # enable / disable concurrency limit
-    enabled: true
-    concurrencyLimit: 1 # only allow 1 concurrent session (sessions in 'running' state at the same time for the same ip / target addr)
+    enabled: false
+    concurrencyLimit: 100 # only allow 1 concurrent session (sessions in 'running' state at the same time for the same ip / target addr)
     byAddrOnly: false # only check concurrency by target address
     byIPOnly: false # only check concurrency by IP address
     # messageByAddr: ""  #  custom error message when limit is exceeded by same target address

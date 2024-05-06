@@ -1,4 +1,7 @@
-import { IClientClaimStatusRsp, IClientFaucetStatusRsp } from "../types/FaucetStatus";
+import {
+  IClientClaimStatusRsp,
+  IClientFaucetStatusRsp,
+} from "../types/FaucetStatus";
 import { IPassportInfo } from "../types/PassportInfo";
 import { IFaucetConfig } from "./FaucetConfig";
 import { IFaucetSessionInfo, IFaucetSessionStatus } from "./FaucetSession";
@@ -10,8 +13,7 @@ export class FaucetApi {
 
   public constructor(apiUrl: string) {
     this.faucetTime = new FaucetTime();
-    if(apiUrl.match(/\/$/))
-      apiUrl = apiUrl.substring(0, apiUrl.length - 1);
+    if (apiUrl.match(/\/$/)) apiUrl = apiUrl.substring(0, apiUrl.length - 1);
     this.apiBaseUrl = apiUrl;
   }
 
@@ -20,12 +22,10 @@ export class FaucetApi {
   }
 
   public getApiUrl(endpoint?: string, fqdn?: boolean): string {
-    if(!endpoint)
-      endpoint = "";
-    else if(!endpoint.match(/^\//))
-      endpoint = "/" + endpoint;
+    if (!endpoint) endpoint = "";
+    else if (!endpoint.match(/^\//)) endpoint = "/" + endpoint;
     let apiUrl = this.apiBaseUrl + endpoint;
-    if(fqdn && apiUrl.match(/^\//)) {
+    if (fqdn && apiUrl.match(/^\//)) {
       // add current host
       let hostUrl = location.protocol + "//" + location.host;
       apiUrl = hostUrl + apiUrl;
@@ -33,44 +33,48 @@ export class FaucetApi {
     return apiUrl;
   }
 
-  private apiGet(endpoint: string, args?: {[arg: string]: string|number}): Promise<any> {
-    if(!endpoint.match(/^\//))
-      endpoint = "/" + endpoint;
-    
+  private apiGet(
+    endpoint: string,
+    args?: { [arg: string]: string | number },
+  ): Promise<any> {
+    if (!endpoint.match(/^\//)) endpoint = "/" + endpoint;
+
     let argsStr = "";
-    if(args) {
+    if (args) {
       let argParts: string[] = [];
       Object.keys(args).forEach((key) => {
-        if(!args[key])
-          return;
+        if (!args[key]) return;
         argParts.push(key + "=" + encodeURIComponent(args[key].toString()));
       });
-      if(argParts.length > 0) {
+      if (argParts.length > 0) {
         argsStr = "?" + argParts.join("&");
       }
     }
-    
-    return fetch(this.apiBaseUrl + endpoint + argsStr)
-      .then((rsp) => rsp.json());
+
+    return fetch(this.apiBaseUrl + endpoint + argsStr).then((rsp) =>
+      rsp.json(),
+    );
   }
 
-  private apiPost(endpoint: string, args?: {[arg: string]: string|number}, data?: any): Promise<any> {
-    if(!endpoint.match(/^\//))
-      endpoint = "/" + endpoint;
-    
+  private apiPost(
+    endpoint: string,
+    args?: { [arg: string]: string | number },
+    data?: any,
+  ): Promise<any> {
+    if (!endpoint.match(/^\//)) endpoint = "/" + endpoint;
+
     let argsStr = "";
-    if(args) {
+    if (args) {
       let argParts: string[] = [];
       Object.keys(args).forEach((key) => {
-        if(!args[key])
-          return;
+        if (!args[key]) return;
         argParts.push(key + "=" + encodeURIComponent(args[key].toString()));
       });
-      if(argParts.length > 0) {
+      if (argParts.length > 0) {
         argsStr = "?" + argParts.join("&");
       }
     }
-    
+
     return fetch(this.apiBaseUrl + endpoint + argsStr, {
       method: "POST",
       cache: "no-cache",
@@ -96,7 +100,10 @@ export class FaucetApi {
     });
   }
 
-  public getSessionStatus(sessionId: string, details?: boolean): Promise<IFaucetSessionStatus> {
+  public getSessionStatus(
+    sessionId: string,
+    details?: boolean,
+  ): Promise<IFaucetSessionStatus> {
     return this.apiGet("/getSessionStatus", {
       session: sessionId,
       details: details ? 1 : undefined,
@@ -121,20 +128,26 @@ export class FaucetApi {
 
   public getPassportInfo(sessionId: string): Promise<IPassportInfo> {
     return this.apiGet("/getPassportInfo", {
-      session: sessionId
+      session: sessionId,
     });
   }
 
   public refreshPassport(sessionId: string): Promise<IPassportInfo> {
     return this.apiGet("/refreshPassport", {
-      session: sessionId
+      session: sessionId,
     });
   }
 
-  public refreshPassportJson(sessionId: string, json: string): Promise<IPassportInfo> {
-    return this.apiPost("/refreshPassport", {
-      session: sessionId
-    }, json);
+  public refreshPassportJson(
+    sessionId: string,
+    json: string,
+  ): Promise<IPassportInfo> {
+    return this.apiPost(
+      "/refreshPassport",
+      {
+        session: sessionId,
+      },
+      json,
+    );
   }
-
 }

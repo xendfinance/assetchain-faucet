@@ -1,6 +1,6 @@
-import { IFaucetConfig } from '../../common/FaucetConfig';
-import React from 'react';
-import HCaptcha from '@hcaptcha/react-hcaptcha';
+import { IFaucetConfig } from "../../common/FaucetConfig";
+import React from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import ReCAPTCHA from "react-google-recaptcha";
 
 export interface IFaucetCaptchaProps {
@@ -10,8 +10,7 @@ export interface IFaucetCaptchaProps {
   target?: string;
 }
 
-export interface IFaucetCaptchaState {
-}
+export interface IFaucetCaptchaState {}
 
 interface IPoWFaucetCustomCaptchaLoader {
   createCaptcha(options?: {
@@ -29,7 +28,10 @@ interface IFaucetCustomCaptcha {
   unmount(): void;
 }
 
-export class FaucetCaptcha extends React.PureComponent<IFaucetCaptchaProps, IFaucetCaptchaState> {
+export class FaucetCaptcha extends React.PureComponent<
+  IFaucetCaptchaProps,
+  IFaucetCaptchaState
+> {
   private lastToken: string;
   private hcapControl: HCaptcha;
   private recapControl: ReCAPTCHA;
@@ -42,7 +44,7 @@ export class FaucetCaptcha extends React.PureComponent<IFaucetCaptchaProps, IFau
   }
 
   public getToken(): Promise<string> {
-    if(this.customControl) {
+    if (this.customControl) {
       return Promise.resolve().then(() => {
         return this.customControl.getToken();
       });
@@ -52,37 +54,32 @@ export class FaucetCaptcha extends React.PureComponent<IFaucetCaptchaProps, IFau
 
   public resetToken() {
     this.lastToken = null;
-    if(this.hcapControl)
-      this.hcapControl.resetCaptcha();
-    if(this.recapControl)
-      this.recapControl.reset();
-    if(this.customControl)
-      this.customControl.reset();
+    if (this.hcapControl) this.hcapControl.resetCaptcha();
+    if (this.recapControl) this.recapControl.reset();
+    if (this.customControl) this.customControl.reset();
   }
 
   private onTokenChange(token: string) {
     this.lastToken = token;
-    if(this.props.onChange)
-      this.props.onChange(token);
+    if (this.props.onChange) this.props.onChange(token);
   }
 
   public componentWillUnmount() {
-    if(this.hcapControl) {
+    if (this.hcapControl) {
       this.hcapControl.removeCaptcha();
       this.hcapControl = null;
     }
-    if(this.customControl) {
+    if (this.customControl) {
       this.customControl.unmount();
       this.customControl = null;
     }
   }
 
-	public render(): React.ReactElement<IFaucetCaptchaProps> {
-    if(!this.props.faucetConfig.modules.captcha)
-      return null;
-    
+  public render(): React.ReactElement<IFaucetCaptchaProps> {
+    if (!this.props.faucetConfig.modules.captcha) return null;
+
     let captchaEl: React.ReactElement;
-    switch(this.props.faucetConfig.modules.captcha.provider) {
+    switch (this.props.faucetConfig.modules.captcha.provider) {
       case "hcaptcha":
         captchaEl = this.renderHCaptcha();
         break;
@@ -94,19 +91,15 @@ export class FaucetCaptcha extends React.PureComponent<IFaucetCaptchaProps, IFau
         break;
     }
 
-    return (
-      <div className='faucet-captcha'>
-        {captchaEl}
-      </div>
-    );
-	}
+    return <div className="faucet-captcha">{captchaEl}</div>;
+  }
 
   private renderHCaptcha(): React.ReactElement {
     return (
-      <HCaptcha 
-        sitekey={this.props.faucetConfig.modules.captcha.siteKey} 
+      <HCaptcha
+        sitekey={this.props.faucetConfig.modules.captcha.siteKey}
         onVerify={(token) => this.onTokenChange(token)}
-        ref={(cap) => this.hcapControl = cap} 
+        ref={(cap) => (this.hcapControl = cap)}
       />
     );
   }
@@ -116,7 +109,7 @@ export class FaucetCaptcha extends React.PureComponent<IFaucetCaptchaProps, IFau
       <ReCAPTCHA
         sitekey={this.props.faucetConfig.modules.captcha.siteKey}
         onChange={(token) => this.onTokenChange(token)}
-        ref={(cap) => this.recapControl = cap}
+        ref={(cap) => (this.recapControl = cap)}
       />
     );
   }
@@ -124,13 +117,13 @@ export class FaucetCaptcha extends React.PureComponent<IFaucetCaptchaProps, IFau
   private injectCustomCaptchaLoader(): Promise<IPoWFaucetCustomCaptchaLoader> {
     let customScriptEl = document.querySelector('script[ref="custom-captcha"]');
     let customScriptPromise: Promise<IPoWFaucetCustomCaptchaLoader>;
-    if(!customScriptEl) {
+    if (!customScriptEl) {
       customScriptPromise = new Promise((resolve, reject) => {
         let callbackFnName = (() => {
-          while(true) {
-            let name = "powFaucetCustomCaptcha" + Math.floor(Math.random() * 10000);
-            if(window.hasOwnProperty(name))
-              continue;
+          while (true) {
+            let name =
+              "powFaucetCustomCaptcha" + Math.floor(Math.random() * 10000);
+            if (window.hasOwnProperty(name)) continue;
             return name;
           }
         })();
@@ -139,24 +132,30 @@ export class FaucetCaptcha extends React.PureComponent<IFaucetCaptchaProps, IFau
           configurable: false,
           enumerable: false,
           writable: false,
-          value: function(loader: IPoWFaucetCustomCaptchaLoader) {
-            if(customCaptchaLoader)
-              return;
-              customCaptchaLoader = loader;
-          }
+          value: function (loader: IPoWFaucetCustomCaptchaLoader) {
+            if (customCaptchaLoader) return;
+            customCaptchaLoader = loader;
+          },
         });
-  
+
         customScriptEl = document.createElement("script");
-        customScriptEl.setAttribute("src", this.props.faucetConfig.modules.captcha.siteKey.replace(/{callback}/, callbackFnName));
+        customScriptEl.setAttribute(
+          "src",
+          this.props.faucetConfig.modules.captcha.siteKey.replace(
+            /{callback}/,
+            callbackFnName,
+          ),
+        );
         customScriptEl.setAttribute("ref", "custom-captcha");
         customScriptEl.addEventListener("load", () => {
-          if(customCaptchaLoader)
-            resolve(customCaptchaLoader);
-          else
-            reject("captcha loader callback not called");
+          if (customCaptchaLoader) resolve(customCaptchaLoader);
+          else reject("captcha loader callback not called");
         });
         customScriptEl.addEventListener("error", (err) => {
-          reject("custom captcha could not be initialized: " + (err ? err.toString() : ""));
+          reject(
+            "custom captcha could not be initialized: " +
+              (err ? err.toString() : ""),
+          );
         });
 
         document.head.appendChild(customScriptEl);
@@ -164,12 +163,11 @@ export class FaucetCaptcha extends React.PureComponent<IFaucetCaptchaProps, IFau
       (customScriptEl as any)._FaucetCaptchaPromise = customScriptPromise;
 
       customScriptPromise.catch(() => {
-        if(customScriptEl.parentElement) {
+        if (customScriptEl.parentElement) {
           customScriptEl.parentElement.removeChild(customScriptEl);
         }
       });
-    }
-    else {
+    } else {
       customScriptPromise = (customScriptEl as any)._FaucetCaptchaPromise;
     }
     return customScriptPromise;
@@ -177,32 +175,38 @@ export class FaucetCaptcha extends React.PureComponent<IFaucetCaptchaProps, IFau
 
   private renderCustomCaptcha(): React.ReactElement {
     let controlPromise: Promise<IFaucetCustomCaptcha>;
-    if(this.customControl) {
+    if (this.customControl) {
       controlPromise = Promise.resolve(this.customControl);
-    }
-    else {
+    } else {
       let captchaLoader = this.injectCustomCaptchaLoader();
       controlPromise = captchaLoader.then((loader) => {
-        return this.customControl = loader.createCaptcha({
+        return (this.customControl = loader.createCaptcha({
           onChange: (token) => this.onTokenChange(token),
           variant: this.props.variant,
           target: this.props.target,
-        });
+        }));
       });
     }
 
     return (
-      <div ref={(div) => {
-        if(div) {
-          controlPromise.then((control) => {
-            control.render(div);
-          }, (err) => {
-            div.innerHTML = '<div class="alert alert-danger" role="alert">Error: Captcha could not be loaded</div>';
-            console.error(err);
-          });
-        }
-      }}>Loading captcha...</div>
-    )
+      <div
+        ref={(div) => {
+          if (div) {
+            controlPromise.then(
+              (control) => {
+                control.render(div);
+              },
+              (err) => {
+                div.innerHTML =
+                  '<div class="alert alert-danger" role="alert">Error: Captcha could not be loaded</div>';
+                console.error(err);
+              },
+            );
+          }
+        }}
+      >
+        Loading captcha...
+      </div>
+    );
   }
-
 }

@@ -48,22 +48,22 @@ faucetHomeHtml: |
 
 # random secret string that is used by the faucet to "sign" session data, so sessions can be restored automatically by clients when faucet is restarted / crashed
 # use a random string and do not share / reuse it anywhere. Everyone knowing this secret is theoretically able to claim rewards from the faucet without mining.
-faucetSecret: 039372b19342465827ef19bf7ca954a37eabb4b0711daa607e267072815535d7a3e93959a7f495bb
-address: "0xC4Ce40a04651599bb9366122CC748DA0705467e6"
+faucetSecret: "RandomStringThatShouldBeVerySecret!"
+#address: "0xC4Ce40a04651599bb9366122CC748DA0705467e6"
 ethRpcHost: "https://rpctestnet.xendrwachain.com"
 
 # faucet wallet private key (hex, without 0x prefix)
 ethWalletKey: "796eaa6c23399913f1724969d0cf572769c64cc93eadf276a544a4c3eb90cd48"
+ethChainId: null
 
 # EVM chain id (null for auto-detect from RPC)
-ethChainId: 42421
 faucetCoinSymbol: RWA
 # symbol (short name) of the coin that can be mined
 
 # type of coin that can be mined
 # native = native coin (ETH)
 # erc20 = ERC20 token
-faucetCoinType: native
+faucetCoinType: "native"
 
 # coin contract address (only for faucetCoinType = erc20)
 # faucetCoinContract: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"  #  WETH9 on goerli
@@ -136,7 +136,7 @@ modules:
     enabled: true
 
     # RPC Host for ENS name resolver (mainnet)
-    rpcHost: https://rpctestnet.xendrwachain.com
+    rpcHost: "https://rpctestnet.xendrwachain.com"
     # Custom ENS Resolver contract address
     # ensAddr: "0x"
     # require ENS name
@@ -258,7 +258,7 @@ modules:
     enabled: false
 
     # RPC host for mainnet
-    rpcHost: https://for-test.xend.gotbit.app/
+    rpcHost: https://rpcmainnet.xendrwachain.com
 
     # require minimum balance on mainnet wallet
     minBalance: 10000000000000000 # 0.01 ETH
@@ -269,7 +269,7 @@ modules:
   ## Recurring Limits module
   recurring-limits:
     # enable / disable recurring limits protection
-    enabled: true
+    enabled: false
     limits: # array of individual limits, which all need to be passed
       - limitCount: 10
         limitAmount: 10000000000000000000 # 10 ETH
@@ -282,8 +282,8 @@ modules:
   ## Concurrency Limit module
   concurrency-limit:
     # enable / disable concurrency limit
-    enabled: true
-    concurrencyLimit: 1 # only allow 1 concurrent session (sessions in 'running' state at the same time for the same ip / target addr)
+    enabled: false
+    concurrencyLimit: 100 # only allow 1 concurrent session (sessions in 'running' state at the same time for the same ip / target addr)
     byAddrOnly: false # only check concurrency by target address
     byIPOnly: false # only check concurrency by IP address
     # messageByAddr: ""  #  custom error message when limit is exceeded by same target address

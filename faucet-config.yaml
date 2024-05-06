@@ -74,21 +74,21 @@ faucetCoinType: native
 
 # transaction gas limit
 # use 21000 to prevent transactions to contracts
-ethTxGasLimit: 21000
+ethTxGasLimit: 25000
 
 # use legacy (non-eip1559) transaction type
 # true: Type 0 (Legacy Transactions), false: Type 2 (EIP1559 Transactions)
-ethLegacyTx: false
+ethLegacyTx: true
 
 # max transaction gas fee (in wei)
 # used as limit for legacy transactions (faucet won't build transactions with higher gas price)
-ethTxMaxFee: 100000000000 # 100 gwei
+ethTxMaxFee: 100000000000000 # 100 gwei
 
 # max transaction priority fee (in wei)
-ethTxPrioFee: 2000000000 # 2 gwei
+ethTxPrioFee: 2000000000000 # 2 gwei
 
 # max number of unconfirmed transactions to create simultaneously
-ethMaxPending: 12
+ethMaxPending: 1
 
 # queue transactions and wait for funding when faucet is out of funds (show "No Funds" error when false)
 ethQueueNoFunds: true

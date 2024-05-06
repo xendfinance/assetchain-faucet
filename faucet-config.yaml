@@ -11,7 +11,7 @@ database:
 faucetLogFile: faucet-events.log
 
 # path to file to write the process pid to (comment out to disable)
-#faucetPidFile: 11faucet-pid.txt
+faucetPidFile: faucet-pid.txt
 
 # faucet http/ws server port
 serverPort: 3000
@@ -78,10 +78,10 @@ ethLegacyTx: true
 
 # max transaction gas fee (in wei)
 # used as limit for legacy transactions (faucet won't build transactions with higher gas price)
-ethTxMaxFee: 100000000000000 # 100 gwei
+ethTxMaxFee: 1000000000000000 # 100 gwei
 
 # max transaction priority fee (in wei)
-ethTxPrioFee: 2000000000000 # 2 gwei
+ethTxPrioFee: 20000000000000 # 2 gwei
 
 # max number of unconfirmed transactions to create simultaneously
 ethMaxPending: 1
@@ -90,7 +90,7 @@ ethMaxPending: 1
 ethQueueNoFunds: true
 
 # link to eth transaction explorer with {txid} as placeholder for transaction id or null for no link
-ethTxExplorerLink: https://gotbit-testnetxend-chain-frontend-dev.dev.gotbit.app/tx/{txid}
+ethTxExplorerLink: https://testnet.xendrwachain.com/tx/{txid}
 
 # min/max drop amount (max is the default if no module lowers it)
 maxDropAmount: 1000000000000000000 # 1 ETH
@@ -136,7 +136,7 @@ modules:
     enabled: true
 
     # RPC Host for ENS name resolver (mainnet)
-    rpcHost: https://rpctestnet.xendrwachain.com
+    rpcHost: https://rpcmainnet.xendrwachain.com
     # Custom ENS Resolver contract address
     # ensAddr: "0x"
     # require ENS name
@@ -175,7 +175,7 @@ modules:
       ^.*SCloud.*$: 10
   ethinfo:
     # enable / disable max balance protection
-    enabled: false
+    enabled: true
 
     # check balance and deny session if balance exceeds the limit (in wei)
     maxBalance: 50000000000000000000 # 50 ETH
@@ -201,7 +201,7 @@ modules:
   ## Faucet Outflow module
   faucet-outflow:
     # enable / disable faucet outflow protection
-    enabled: false
+    enabled: true
 
     # dynamic reward restriction based on faucet outflow
     # alternative to static faucetBalanceRestrictedReward
@@ -282,8 +282,8 @@ modules:
   ## Concurrency Limit module
   concurrency-limit:
     # enable / disable concurrency limit
-    enabled: false
-    concurrencyLimit: 100 # only allow 1 concurrent session (sessions in 'running' state at the same time for the same ip / target addr)
+    enabled: true
+    concurrencyLimit: 5 # only allow 1 concurrent session (sessions in 'running' state at the same time for the same ip / target addr)
     byAddrOnly: false # only check concurrency by target address
     byIPOnly: false # only check concurrency by IP address
     # messageByAddr: ""  #  custom error message when limit is exceeded by same target address

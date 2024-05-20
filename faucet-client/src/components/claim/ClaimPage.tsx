@@ -441,7 +441,7 @@ export class ClaimPage extends React.PureComponent<IClaimPageProps, IClaimPageSt
 			);
 		}
 
-		let resultSharingCaption = this.props.faucetConfig.resultSharing.caption || "Support this faucet with a ";
+		let resultSharingCaption = this.props.faucetConfig.resultSharing.caption || "Follow us on ";
 		return (
 			<div className="result-sharing">
 				{this.props.faucetConfig.resultSharing.preHtml ? (

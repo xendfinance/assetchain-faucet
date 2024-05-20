@@ -421,62 +421,27 @@ export class ClaimPage extends React.PureComponent<IClaimPageProps, IClaimPageSt
 		let shareEls: React.ReactElement[] = [];
 
 		if (this.props.faucetConfig.resultSharing?.twitter) {
-			let tweetMsg = this.replaceShareMessagePlaceholders(this.props.faucetConfig.resultSharing.twitter);
-			let tweetUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetMsg);
 			shareEls.push(
 				<span key="tw" className="sh-link sh-tw">
-					<a
-						href="#"
-						target="_blank"
-						data-url={tweetUrl}
-						rel="noopener noreferrer"
-						onClick={function (evt) {
-							let a = document.createElement("a");
-							a.target = "_blank";
-							a.href = tweetUrl;
-							a.click();
-
-							evt.preventDefault();
-						}}
-					>
+					<a href="https://x.com/xendfinance" target="_blank" rel="noopener noreferrer">
 						<i />
-						<span>Tweet</span>
+						<span>Twitter</span>
 					</a>
 				</span>
 			);
 		}
 		if (this.props.faucetConfig.resultSharing?.mastodon) {
-			let tweetMsg = this.replaceShareMessagePlaceholders(this.props.faucetConfig.resultSharing.mastodon);
-
-			let tweetUrl = "/share?text=" + encodeURIComponent(tweetMsg);
 			shareEls.push(
 				<span key="md" className="sh-link sh-md">
-					<a
-						href={"https://mastodon.social" + tweetUrl}
-						target="_blank"
-						data-url={tweetUrl}
-						rel="noopener noreferrer"
-						onClick={function (evt) {
-							var mastodonUrl = evt.currentTarget.getAttribute("data-instance");
-							if (!mastodonUrl)
-								mastodonUrl = prompt(
-									"Please enter the URL of the mastodon instance you'd like to share to:",
-									"https://mastodon.social"
-								);
-							if (mastodonUrl) {
-								evt.currentTarget.setAttribute("href", mastodonUrl.replace(/\/$/, "") + tweetUrl);
-								evt.currentTarget.setAttribute("data-instance", mastodonUrl);
-							} else evt.preventDefault();
-						}}
-					>
+					<a href="https://t.me/xendFinance" target="_blank" rel="noopener noreferrer">
 						<i />
-						<span>Post</span>
+						<span>Telegram</span>
 					</a>
 				</span>
 			);
 		}
 
-		let resultSharingCaption = this.props.faucetConfig.resultSharing.caption || "Support this faucet with a ";
+		let resultSharingCaption = this.props.faucetConfig.resultSharing.caption || "Follow us on ";
 		return (
 			<div className="result-sharing">
 				{this.props.faucetConfig.resultSharing.preHtml ? (

@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        name: 'faucet',           // Application name
+        name: 'faucet-ui',           // Application name
         script: 'dist/app.js', // Script to be run
         instances: 1,          // Number of instances to be started
         autorestart: true,     // Automatically restart crashed application

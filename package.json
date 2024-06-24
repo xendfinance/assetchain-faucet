@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@brettz9/node-static": "^0.1.1",
-    "@ethereumjs/common": "^4.1.0",
+    "@ethereumjs/common": "^4.3.0",
     "@ethereumjs/tx": "^5.2.1",
     "@types/node": "^20.11.20",
     "bignumber.js": "^9.1.2",

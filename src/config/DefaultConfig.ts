@@ -24,6 +24,8 @@ export function getDefaultConfig(): IConfigSchema {
     faucetHomeHtml: "",
     faucetCoinSymbol: "ETH",
     faucetCoinType: FaucetCoinType.NATIVE,
+    assetFaucetCoinType: false,
+    faucetCoinContractSymbol: "",
     faucetCoinContract: null,
     faucetLogFile: null,
     faucetLogStatsInterval: 600,

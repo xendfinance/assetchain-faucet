@@ -50,7 +50,7 @@ faucetHomeHtml: |
 # use a random string and do not share / reuse it anywhere. Everyone knowing this secret is theoretically able to claim rewards from the faucet without mining.
 faucetSecret: "RandomStringThatShouldBeVerySecret!"
 #address: "0xC4Ce40a04651599bb9366122CC748DA0705467e6"
-ethRpcHost: "https://rpctestnet.xendrwachain.com"
+ethRpcHost: "https://enugu-rpc.assetchain.org/"
 
 # faucet wallet private key (hex, without 0x prefix)
 ethWalletKey: "796eaa6c23399913f1724969d0cf572769c64cc93eadf276a544a4c3eb90cd48"
@@ -93,7 +93,7 @@ ethMaxPending: 1
 ethQueueNoFunds: true
 
 # link to eth transaction explorer with {txid} as placeholder for transaction id or null for no link
-ethTxExplorerLink: https://testnet.assetchain.org/tx/{txid}
+ethTxExplorerLink: https://scan-testnet.assetchain.org/tx/{txid}
 
 # min/max drop amount (max is the default if no module lowers it)
 maxDropAmount: 1000000000000000000 # 1 ETH

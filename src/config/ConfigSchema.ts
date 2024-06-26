@@ -23,6 +23,8 @@ export interface IConfigSchema {
   faucetHomeHtml: string; // some additional html to show on the startpage
   faucetCoinSymbol: string; // symbol (short name) of the coin that can be mined
   faucetCoinType: FaucetCoinType; // coin type (native / erc20)
+  assetFaucetCoinType: boolean;
+  faucetCoinContractSymbol: string;
   faucetCoinContract: string; // erc20 coin contract (for erc20 coins)
   faucetLogFile: string; // logfile for faucet events / null for no log
   faucetLogStatsInterval: number; // print faucet stats to log interval (10min default)

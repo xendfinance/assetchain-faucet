@@ -50,7 +50,7 @@ faucetHomeHtml: |
 # use a random string and do not share / reuse it anywhere. Everyone knowing this secret is theoretically able to claim rewards from the faucet without mining.
 faucetSecret: "RandomStringThatShouldBeVerySecret!"
 #address: "0xC4Ce40a04651599bb9366122CC748DA0705467e6"
-ethRpcHost: "https://enugu-rpc.assetchain.org/"
+ethRpcHost: "https://rpctestnet.xendrwachain.com"
 
 # faucet wallet private key (hex, without 0x prefix)
 ethWalletKey: "796eaa6c23399913f1724969d0cf572769c64cc93eadf276a544a4c3eb90cd48"
@@ -63,14 +63,17 @@ faucetCoinSymbol: RWA
 # type of coin that can be mined
 # native = native coin (ETH)
 # erc20 = ERC20 token
-faucetCoinType: "native"
+# both = ERC20 and native coin
+faucetCoinType: "erc20"
+faucetCoinContractSymbol: "USDT"
 
 # coin contract address (only for faucetCoinType = erc20)
-# faucetCoinContract: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"  #  WETH9 on goerli
+faucetCoinContract: "0x04f868C5b3F0A100a207c7e9312946cC2c48a7a3"  #  WETH9 on goerli
+assetFaucetCoinType: true
 
 # transaction gas limit
 # use 21000 to prevent transactions to contracts
-ethTxGasLimit: 25000
+ethTxGasLimit: 250000
 
 # use legacy (non-eip1559) transaction type
 # true: Type 0 (Legacy Transactions), false: Type 2 (EIP1559 Transactions)
@@ -419,7 +422,7 @@ lowFundsBalance: 10000000000000000000 # 10 ETH
 lowFundsWarning: "The faucet is running out of funds! Faucet Balance: {1}"
 
 # empty faucet error message / false to disable the error
-noFundsError: Sorry, the faucet is out of funds :(
+noFundsError: false
 
 # RPC unreachable error message / true to show the generic message / false to disable the error
 rpcConnectionError: The Faucet is currently not working properly (RPC error)

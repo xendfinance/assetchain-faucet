@@ -26,6 +26,8 @@ export interface IClientFaucetConfig {
   faucetHtml: string;
   faucetCoinSymbol: string;
   faucetCoinType: string;
+  assetFaucetCoinType: boolean;
+  faucetCoinContractSymbol: string;
   faucetCoinContract: string;
   faucetCoinDecimals: number;
   minClaim: number;
@@ -172,6 +174,8 @@ export class FaucetWebApi {
       faucetHtml: this.getFaucetHomeHtml(),
       faucetCoinSymbol: faucetConfig.faucetCoinSymbol,
       faucetCoinType: faucetConfig.faucetCoinType,
+      assetFaucetCoinType: faucetConfig.assetFaucetCoinType,
+      faucetCoinContractSymbol: faucetConfig.faucetCoinContractSymbol,
       faucetCoinContract: faucetConfig.faucetCoinContract,
       faucetCoinDecimals: ethWalletManager.getFaucetDecimals(),
       minClaim: faucetConfig.minDropAmount,

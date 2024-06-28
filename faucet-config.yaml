@@ -64,12 +64,12 @@ faucetCoinSymbol: RWA
 # native = native coin (ETH)
 # erc20 = ERC20 token
 # both = ERC20 and native coin
-faucetCoinType: "erc20"
+faucetCoinType: "native"
 faucetCoinContractSymbol: "USDT"
 
 # coin contract address (only for faucetCoinType = erc20)
 faucetCoinContract: "0x04f868C5b3F0A100a207c7e9312946cC2c48a7a3"  #  WETH9 on goerli
-assetFaucetCoinType: true
+assetFaucetCoinType: false
 
 # transaction gas limit
 # use 21000 to prevent transactions to contracts

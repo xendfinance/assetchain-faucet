@@ -43,6 +43,8 @@ export interface EthClaimInfo {
   target: string;
   amount: string;
   claim: EthClaimData;
+  faucetCoinType: string;
+  faucetCoinSymbol: string;
 }
 
 export interface EthClaimData {
@@ -86,6 +88,8 @@ export class EthClaimManager {
         target: sessionData.targetAddr,
         amount: sessionData.dropAmount,
         claim: sessionData.claim,
+        faucetCoinSymbol:"",
+        faucetCoinType: ""
       };
       switch(claimInfo.claim.claimStatus) {
         case ClaimTxStatus.QUEUE:
@@ -201,6 +205,8 @@ export class EthClaimManager {
       target: sessionData.targetAddr,
       amount: sessionData.dropAmount,
       claim: sessionData.claim,
+      faucetCoinSymbol :userInput.faucetCoinSymbol,
+      faucetCoinType: userInput.faucetCoinType
     };
     
     try {
@@ -306,7 +312,7 @@ export class EthClaimManager {
       let { txPromise } = await ethWalletManager.sendClaimTx(claimTx);
       this.pendingTxQueue[claimTx.claim.txHash] = claimTx;
 
-      ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.INFO, "Submitted claim transaction " + claimTx.session + " [" + ethWalletManager.readableAmount(BigInt(claimTx.amount)) + "] to: " + claimTx.target + ": " + claimTx.claim.txHash);
+      ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.INFO, "Submitted claim transaction " + claimTx.session + " [" + ethWalletManager.readableTxAmount(claimTx) + "] to: " + claimTx.target + ": " + claimTx.claim.txHash);
       claimTx.claim.claimStatus = ClaimTxStatus.PENDING;
       this.updateClaimStatus(claimTx);
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { IFaucetConfig } from "../../common/FaucetConfig";
 import { IFaucetContext } from "../../common/FaucetContext";
 import { FaucetCaptcha } from "../shared/FaucetCaptcha";
@@ -17,9 +17,10 @@ export interface IFaucetInputState {
 }
 
 export class FaucetInput extends React.PureComponent<IFaucetInputProps, IFaucetInputState> {
+	
 	private faucetCaptcha = React.createRef<FaucetCaptcha>();
 	private githubLogin = React.createRef<GithubLogin>();
-
+	
 	constructor(props: IFaucetInputProps, state: IFaucetInputState) {
 		super(props);
 

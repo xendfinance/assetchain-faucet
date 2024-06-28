@@ -66,12 +66,10 @@ export class ClaimInput extends React.PureComponent<
     });
 
     try {
-      let inputData: any = {};
-
+      let inputData: any = {faucetCoinType:this.props.faucetConfig.faucetCoinType, faucetCoinSymbol:this.props.faucetConfig.faucetCoinSymbol };
       if (this.props.faucetConfig.modules.captcha?.requiredForClaim) {
         inputData.captchaToken = await this.faucetCaptcha.current?.getToken();
       }
-
       await this.props.submitInputs(inputData);
     } catch (ex) {
       if (this.faucetCaptcha.current) this.faucetCaptcha.current.resetToken();

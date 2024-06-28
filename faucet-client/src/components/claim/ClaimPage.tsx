@@ -494,12 +494,15 @@ export class ClaimPage extends React.PureComponent<IClaimPageProps, IClaimPageSt
 
 		return message;
 	}
-
 	private async submitClaim(claimData: any): Promise<void> {
 		try {
 			claimData = Object.assign(
 				{
 					session: this.props.sessionId,
+					faucetCoinType: this.props.faucetConfig.faucetCoinType,
+					faucetCoinSymbol: this.props.faucetConfig.faucetCoinSymbol
+
+
 				},
 				claimData || {}
 			);

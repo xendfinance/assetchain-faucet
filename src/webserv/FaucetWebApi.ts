@@ -274,7 +274,8 @@ export class FaucetWebApi {
         failedReason: "Session not found.",
       }
     }
-    
+    faucetConfig.faucetCoinType = userInput.faucetCoinType;
+    faucetConfig.faucetCoinSymbol = userInput.faucetCoinSymbol;
     try {
       await ServiceManager.GetService(EthClaimManager).createSessionClaim(sessionData, userInput);
     } catch(ex) {

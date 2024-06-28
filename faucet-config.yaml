@@ -69,7 +69,7 @@ faucetCoinContractSymbol: "USDT"
 
 # coin contract address (only for faucetCoinType = erc20)
 faucetCoinContract: "0x04f868C5b3F0A100a207c7e9312946cC2c48a7a3"  #  WETH9 on goerli
-assetFaucetCoinType: false
+assetFaucetCoinType: true
 
 # transaction gas limit
 # use 21000 to prevent transactions to contracts

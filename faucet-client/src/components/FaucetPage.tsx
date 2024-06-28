@@ -66,9 +66,16 @@ export class FaucetPage extends React.PureComponent<IFaucetPageProps, IFaucetPag
 	private pageContext: IFaucetContext;
 	private faucetStatucClickCount = 0;
 
+	private updateFaucetConfig = (newConfig: Partial<IFaucetConfig>) => {
+		this.setState((prevState) => ({
+			faucetConfig: { ...prevState.faucetConfig, ...newConfig },
+		}));
+	};
+
 	constructor(props: IFaucetPageProps, state: IFaucetPageState) {
 		super(props);
 
+		
 		let faucetApi = new FaucetApi(props.apiUrl);
 		this.pageContext = {
 			faucetApi: faucetApi,
@@ -80,6 +87,7 @@ export class FaucetPage extends React.PureComponent<IFaucetPageProps, IFaucetPag
 			hideNotification: (notificationId: number) => this.hideNotification(notificationId),
 			showDialog: (dialogProps: IFaucetDialogProps) => this.showDialog(dialogProps),
 			hideDialog: (dialogId: number) => this.hideDialog(dialogId),
+			updateFaucetConfig: this.updateFaucetConfig,
 		};
 
 		this.state = {
@@ -139,7 +147,7 @@ export class FaucetPage extends React.PureComponent<IFaucetPageProps, IFaucetPag
 		return (
 			<div className="faucet-page">
 				<FaucetConfigContext.Provider value={this.state.faucetConfig}>
-					<FaucetPageContext.Provider value={this.pageContext}>
+					<FaucetPageContext.Provider value={{...this.pageContext, updateFaucetConfig: this.updateFaucetConfig}}>
 						<div className="faucet-title">
 							<h1 className="center">{this.state.faucetConfig.faucetTitle}</h1>
 							<div className="faucet-status-link" onClick={() => this.onFaucetStatusClick()}></div>

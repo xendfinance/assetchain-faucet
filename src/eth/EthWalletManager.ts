@@ -80,7 +80,7 @@ export class EthWalletManager {
       balance: 0n,
       nativeBalance: 0n,
     };
-
+  
     this.startWeb3();
     if(typeof faucetConfig.ethChainId === "number")
       this.initChainCommon(BigInt(faucetConfig.ethChainId));
@@ -268,7 +268,11 @@ export class EthWalletManager {
 
   public readableAmount(amount: bigint, native?: boolean): string {
     let amountStr = (Math.floor(this.decimalUnitAmount(amount, native) * 1000) / 1000).toString();
-    return amountStr + " " + (native ? "ETH" : faucetConfig.faucetCoinSymbol);
+    return amountStr + " " + (native ? faucetConfig.faucetCoinSymbol : faucetConfig.faucetCoinContractSymbol);
+  }
+  public readableTxAmount(claimTx: EthClaimInfo): string {
+    let amountStr = (Math.floor(this.decimalUnitAmount(BigInt(claimTx.amount), claimTx.faucetCoinType === FaucetCoinType.NATIVE) * 1000) / 1000).toString();
+    return amountStr + " " + claimTx.faucetCoinSymbol;
   }
 
   public async getWalletBalance(addr: string): Promise<bigint> {
@@ -319,6 +323,9 @@ export class EthWalletManager {
     let txPromise: Promise<TransactionReceipt>;
     let retryCount = 0;
     let txError: Error;
+    faucetConfig.faucetCoinSymbol = claimInfo.faucetCoinSymbol;
+    faucetConfig.faucetCoinType = claimInfo.faucetCoinType === 'native'?FaucetCoinType.NATIVE: FaucetCoinType.ERC20
+    await this.startWeb3()
     let buildTx = () => {
       claimInfo.claim.txNonce = this.walletState.nonce;
       if(this.tokenState)

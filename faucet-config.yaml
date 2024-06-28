@@ -14,7 +14,7 @@ faucetLogFile: faucet-events.log
 faucetPidFile: faucet-pid.txt
 
 # faucet http/ws server port
-serverPort: 3009
+serverPort: 3008
 
 # number of http proxies in front of this faucet
 httpProxyCount: 0

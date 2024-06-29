@@ -133,7 +133,7 @@ export class PoWMinerStatus extends React.PureComponent<
     }
 
     if (
-      this.state.balance >= this.props.faucetConfig.maxClaim &&
+      this.state.balance >= (this.props.faucetConfig.faucetCoinType === "native"?this.props.faucetConfig.maxClaim: this.props.faucetConfig.maxClaim * 5) &&
       !this.stoppedMiner
     ) {
       this.stoppedMiner = true;
@@ -233,7 +233,7 @@ export class PoWMinerStatus extends React.PureComponent<
           <div className="col-6">
             <div className="status-value">
               {toReadableAmount(
-                this.props.faucetConfig.maxClaim,
+                this.props.faucetConfig.faucetCoinType === "native"?this.props.faucetConfig.maxClaim:this.props.faucetConfig.maxClaim *5,
                 this.props.faucetConfig.faucetCoinDecimals,
                 this.props.faucetConfig.faucetCoinSymbol,
               )}

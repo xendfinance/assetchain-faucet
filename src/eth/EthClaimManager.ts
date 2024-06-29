@@ -2,7 +2,7 @@ import { WebSocket } from 'ws';
 import { faucetConfig } from "../config/FaucetConfig.js";
 import { FaucetLogLevel, FaucetProcess } from "../common/FaucetProcess.js";
 import { ServiceManager } from "../common/ServiceManager.js";
-import { EthWalletManager } from "./EthWalletManager.js";
+import { EthWalletManager, FaucetCoinType } from "./EthWalletManager.js";
 import { FaucetStatsLog } from "../services/FaucetStatsLog.js";
 import { FaucetDatabase } from "../db/FaucetDatabase.js";
 import { EthWalletRefill } from "./EthWalletRefill.js";
@@ -194,9 +194,9 @@ export class EthClaimManager {
     if(BigInt(sessionData.dropAmount) < BigInt(faucetConfig.minDropAmount))
       throw new FaucetError("AMOUNT_TOO_LOW", "drop amount lower than minimum");
 
-    let maxDropAmount = BigInt(faucetConfig.maxDropAmount);
+    let maxDropAmount = userInput.faucetCoinType == FaucetCoinType.NATIVE? BigInt(faucetConfig.maxDropAmount): BigInt(faucetConfig.maxDropAmount * 5);
     if(sessionData.data["overrideMaxDropAmount"])
-      maxDropAmount = BigInt(sessionData.data["overrideMaxDropAmount"]);
+      maxDropAmount = userInput.faucetCoinType == FaucetCoinType.NATIVE? BigInt(sessionData.data["overrideMaxDropAmount"]): BigInt(sessionData.data["overrideMaxDropAmount"] * 5);
     if(BigInt(sessionData.dropAmount) > maxDropAmount)
       sessionData.dropAmount = maxDropAmount.toString();
     

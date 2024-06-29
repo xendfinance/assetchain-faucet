@@ -64,7 +64,7 @@ faucetCoinSymbol: RWA
 # native = native coin (ETH)
 # erc20 = ERC20 token
 # both = ERC20 and native coin
-faucetCoinType: "native"
+faucetCoinType: "erc20"
 faucetCoinContractSymbol: "USDT"
 
 # coin contract address (only for faucetCoinType = erc20)

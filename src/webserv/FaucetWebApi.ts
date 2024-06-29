@@ -1,7 +1,7 @@
 import { IncomingMessage } from "http";
 import { faucetConfig } from "../config/FaucetConfig.js";
 import { ServiceManager } from "../common/ServiceManager.js";
-import { EthWalletManager } from "../eth/EthWalletManager.js";
+import { EthWalletManager, FaucetCoinType } from "../eth/EthWalletManager.js";
 import { FaucetStatus, IFaucetStatus } from "../services/FaucetStatus.js";
 import { FaucetHttpResponse } from "./FaucetHttpServer.js";
 import { SessionManager } from "../session/SessionManager.js";
@@ -146,7 +146,7 @@ export class FaucetWebApi {
   }
 
   private onGetMaxReward(): number {
-    return faucetConfig.maxDropAmount;
+    return faucetConfig.faucetCoinType === FaucetCoinType.NATIVE? faucetConfig.maxDropAmount:faucetConfig.maxDropAmount *5;
   }
 
   public getFaucetHomeHtml(): string {
@@ -179,7 +179,7 @@ export class FaucetWebApi {
       faucetCoinContract: faucetConfig.faucetCoinContract,
       faucetCoinDecimals: ethWalletManager.getFaucetDecimals(),
       minClaim: faucetConfig.minDropAmount,
-      maxClaim: faucetConfig.maxDropAmount,
+      maxClaim: faucetConfig.faucetCoinType === FaucetCoinType.NATIVE? faucetConfig.maxDropAmount: faucetConfig.maxDropAmount *5,
       sessionTimeout: faucetConfig.sessionTimeout,
       ethTxExplorerLink: faucetConfig.ethTxExplorerLink,
       time: Math.floor((new Date()).getTime() / 1000),

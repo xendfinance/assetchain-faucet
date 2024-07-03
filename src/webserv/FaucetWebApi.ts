@@ -193,6 +193,11 @@ export class FaucetWebApi {
       return new FaucetHttpResponse(405, "Method Not Allowed");
     
     let userInput = JSON.parse(body.toString("utf8"));
+    console.log({userInput},faucetConfig.faucetCoinSymbol, faucetConfig.faucetCoinType)
+    faucetConfig.faucetCoinSymbol = userInput.faucetCoinSymbol
+    faucetConfig.faucetCoinType = userInput.faucetCoinType
+
+    console.log(faucetConfig.faucetCoinSymbol, faucetConfig.faucetCoinType)
     let responseData: any = {};
     let sessionInfo: IClientSessionInfo;
     let session: FaucetSession;

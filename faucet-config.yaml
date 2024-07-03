@@ -299,7 +299,7 @@ modules:
 
     # reward amount per eligible hash (in wei)
     # powShareReward: 12500000000000000  #  0.0125
-    powShareReward: 20000000000000000 # 0.002 ETH
+    powShareReward: 100000000000000000 # 0.002 ETH
 
     # penalty for not responding to a verification request (percent of powShareReward)
     # shouldn't be too high as this can happen regularily in case of connection loss or so

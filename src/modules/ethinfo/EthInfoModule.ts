@@ -1,10 +1,11 @@
 import { ServiceManager } from "../../common/ServiceManager.js";
-import { EthWalletManager } from "../../eth/EthWalletManager.js";
+import { EthWalletManager, FaucetCoinType } from "../../eth/EthWalletManager.js";
 import { FaucetSession } from "../../session/FaucetSession.js";
 import { BaseModule } from "../BaseModule.js";
 import { ModuleHookAction } from "../ModuleManager.js";
 import { defaultConfig, IEthInfoConfig } from './EthInfoConfig.js';
 import { FaucetError } from '../../common/FaucetError.js';
+import { faucetConfig } from "../../config/FaucetConfig.js";
 
 export class EthInfoModule extends BaseModule<IEthInfoConfig> {
   protected readonly moduleDefaultConfig = defaultConfig;
@@ -28,13 +29,14 @@ export class EthInfoModule extends BaseModule<IEthInfoConfig> {
 
     if(this.moduleConfig.maxBalance && this.moduleConfig.maxBalance > 0) {
       let walletBalance: bigint;
+
       try {
         walletBalance = await ServiceManager.GetService(EthWalletManager).getWalletBalance(targetAddr);
       } catch(ex) {
         throw new FaucetError("BALANCE_ERROR", "Could not get balance of Wallet " + targetAddr + ": " + ex.toString());
       }
       if(walletBalance > this.moduleConfig.maxBalance)
-        throw new FaucetError("BALANCE_LIMIT", "You're already holding " + ServiceManager.GetService(EthWalletManager).readableAmount(walletBalance) + " in your wallet. Please give others a chance to get some funds too.");
+        throw new FaucetError("BALANCE_LIMIT", "You're already holding " + ServiceManager.GetService(EthWalletManager).readableAmount(walletBalance, faucetConfig.faucetCoinType == FaucetCoinType.NATIVE?true: false) + " in your wallet. Please give others a chance to get some funds too.");
     }
 
     if(this.moduleConfig.denyContract) {

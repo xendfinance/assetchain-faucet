@@ -150,6 +150,8 @@ export class FaucetInput extends React.PureComponent<IFaucetInputProps, IFaucetI
 			let inputData: any = {};
 
 			inputData.addr = this.state.targetAddr;
+			inputData.faucetCoinType = tokenType,
+			inputData.faucetCoinSymbol = symbol
 			this.props.faucetConfig.faucetCoinType = tokenType;
 			this.props.faucetConfig.faucetCoinSymbol = symbol
 			if (this.props.faucetConfig.modules.captcha?.requiredForStart) {

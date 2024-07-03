@@ -57,6 +57,8 @@ export interface EthClaimData {
   txBlock?: number;
   txFee?: string;
   txError?: string;
+  faucetCoinSymbol :string;
+  faucetCoinType: string;
 }
 
 export class EthClaimManager {
@@ -83,13 +85,14 @@ export class EthClaimManager {
       FaucetSessionStatus.CLAIMING,
     ]);
     storedSession.forEach((sessionData) => {
+      
       let claimInfo: EthClaimInfo = {
         session: sessionData.sessionId,
         target: sessionData.targetAddr,
         amount: sessionData.dropAmount,
         claim: sessionData.claim,
-        faucetCoinSymbol:"",
-        faucetCoinType: ""
+        faucetCoinSymbol:sessionData.claim.faucetCoinSymbol,
+        faucetCoinType: sessionData.claim.faucetCoinType
       };
       switch(claimInfo.claim.claimStatus) {
         case ClaimTxStatus.QUEUE:
@@ -193,13 +196,11 @@ export class EthClaimManager {
       throw new FaucetError("NOT_CLAIMABLE", "cannot claim session: not claimable (state: " + sessionData.status + ")");
     if(BigInt(sessionData.dropAmount) < BigInt(faucetConfig.minDropAmount))
       throw new FaucetError("AMOUNT_TOO_LOW", "drop amount lower than minimum");
-
     let maxDropAmount = userInput.faucetCoinType == FaucetCoinType.NATIVE? BigInt(faucetConfig.maxDropAmount): BigInt(faucetConfig.maxDropAmount * 5);
     if(sessionData.data["overrideMaxDropAmount"])
       maxDropAmount = userInput.faucetCoinType == FaucetCoinType.NATIVE? BigInt(sessionData.data["overrideMaxDropAmount"]): BigInt(sessionData.data["overrideMaxDropAmount"] * 5);
     if(BigInt(sessionData.dropAmount) > maxDropAmount)
       sessionData.dropAmount = maxDropAmount.toString();
-    
     let claimInfo: EthClaimInfo = {
       session: sessionData.sessionId,
       target: sessionData.targetAddr,
@@ -226,11 +227,16 @@ export class EthClaimManager {
       claimIdx: this.lastClaimTxIdx++,
       claimStatus: ClaimTxStatus.QUEUE,
       claimTime: Math.floor(new Date().getTime() / 1000),
+      faucetCoinSymbol :userInput.faucetCoinSymbol,
+      faucetCoinType: userInput.faucetCoinType
     };
     sessionData.status = FaucetSessionStatus.CLAIMING;
     sessionData.dropAmount = claimInfo.amount;
     sessionData.claim = claimInfo.claim;
+    sessionData.claim.faucetCoinSymbol = userInput.faucetCoinSymbol;
+    sessionData.claim.faucetCoinType =userInput.faucetCoinType;
     ServiceManager.GetService(FaucetDatabase).updateSession(sessionData);
+    console.log(claimInfo, "kkddkjfkd")
 
     this.claimTxQueue.push(claimInfo);
     this.claimTxDict[claimInfo.session] = claimInfo;
@@ -241,20 +247,24 @@ export class EthClaimManager {
     if(this.queueProcessing)
       return;
     this.queueProcessing = true;
-
     try {
       let walletState = ServiceManager.GetService(EthWalletManager).getWalletState();
+
       while(Object.keys(this.pendingTxQueue).length < faucetConfig.ethMaxPending && this.claimTxQueue.length > 0) {
+
         if(faucetConfig.ethQueueNoFunds && (
           !walletState.ready || 
           walletState.balance - BigInt(faucetConfig.spareFundsAmount) < BigInt(this.claimTxQueue[0].amount) ||
           walletState.nativeBalance <= BigInt(faucetConfig.ethTxGasLimit) * BigInt(faucetConfig.ethTxMaxFee)
         )) {
           break; // skip processing (out of funds)
-        }
+        }        
+        console.log()
+
 
         let claimTx = this.claimTxQueue.splice(0, 1)[0];
         this.lastProcessedClaimTxIdx = claimTx.claim.claimIdx;
+
         await this.processQueueTx(claimTx);
       }
 

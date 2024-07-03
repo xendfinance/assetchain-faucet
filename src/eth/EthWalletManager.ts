@@ -15,6 +15,8 @@ import { sleepPromise, timeoutPromise } from '../utils/PromiseUtils.js';
 import { EthClaimInfo } from './EthClaimManager.js';
 import { Erc20Abi } from '../abi/ERC20.js';
 import IpcProvider from 'web3-providers-ipc';
+import { FaucetDatabase } from '../db/FaucetDatabase.js';
+import { FaucetSessionStatus } from '../session/FaucetSession.js';
 
 export interface WalletState {
   ready: boolean;
@@ -113,7 +115,9 @@ export class EthWalletManager {
   private startWeb3() {
     let provider = EthWalletManager.getWeb3Provider(faucetConfig.ethRpcHost);
     this.web3 = new Web3(provider);
-
+    // let storedSession = ServiceManager.GetService(FaucetDatabase).getSessions([
+    //   FaucetSessionStatus.CLAIMING,
+    // ]);
     if(faucetConfig.faucetCoinType !== FaucetCoinType.NATIVE)
       this.initWeb3Token();
     else
@@ -276,6 +280,7 @@ export class EthWalletManager {
   }
 
   public async getWalletBalance(addr: string): Promise<bigint> {
+    await this.startWeb3();
     if(this.tokenState)
       return await this.tokenState.getBalance(addr);
     else

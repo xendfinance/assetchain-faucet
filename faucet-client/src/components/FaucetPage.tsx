@@ -15,6 +15,7 @@ import FaucetStatusPage from "./status/FaucetStatusPage";
 import QueueStatusPage from "./status/QueueStatusPage";
 
 import "./FaucetPage.css";
+import FaucetNavBar from "../utils/FaucetNavBar";
 
 export interface IFaucetPageProps {
 	apiUrl: string;
@@ -145,9 +146,14 @@ export class FaucetPage extends React.PureComponent<IFaucetPageProps, IFaucetPag
 			);
 		}
 		return (
+			<>
+						<FaucetNavBar /> {/* Include the FaucetNavBar component */}
+
 			<div className="faucet-page">
 				<FaucetConfigContext.Provider value={this.state.faucetConfig}>
 					<FaucetPageContext.Provider value={{...this.pageContext, updateFaucetConfig: this.updateFaucetConfig}}>
+					
+
 						<div className="faucet-title">
 							<h1 className="center">{this.state.faucetConfig.faucetTitle}</h1>
 							<div className="faucet-status-link" onClick={() => this.onFaucetStatusClick()}></div>
@@ -174,6 +180,7 @@ export class FaucetPage extends React.PureComponent<IFaucetPageProps, IFaucetPag
 					</FaucetPageContext.Provider>
 				</FaucetConfigContext.Provider>
 			</div>
+			</>
 		);
 	}
 

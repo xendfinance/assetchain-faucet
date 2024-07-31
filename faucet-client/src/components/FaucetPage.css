@@ -21,11 +21,18 @@ body {
 	margin: 8px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	transition: 0.3s;
-	max-width: 100vw;
+	width: 100%;
 }
 
 .faucet-loading .loading-spinner {
 	padding: 16px 0;
+}
+
+.pow-faucet{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
 }
 
 .faucet-loading .loading-spinner .spinner {
@@ -113,7 +120,7 @@ body {
 
 .faucet-page:has(.page-mining),
 .faucet-page:has(.page-frontpage) {
-	width: 450px;
+	/* width: 450px; */
 }
 
 .faucet-page:has(.page-claim),

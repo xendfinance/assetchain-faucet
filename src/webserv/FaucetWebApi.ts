@@ -28,7 +28,9 @@ export interface IClientFaucetConfig {
   faucetCoinType: string;
   assetFaucetCoinType: boolean;
   faucetCoinContractSymbol: string;
+  faucetBaseContractSymbol: string;
   faucetCoinContract: string;
+  faucetBaseCoinContract: string;
   faucetCoinDecimals: number;
   minClaim: number;
   maxClaim: number;
@@ -176,7 +178,9 @@ export class FaucetWebApi {
       faucetCoinType: faucetConfig.faucetCoinType,
       assetFaucetCoinType: faucetConfig.assetFaucetCoinType,
       faucetCoinContractSymbol: faucetConfig.faucetCoinContractSymbol,
+      faucetBaseContractSymbol: faucetConfig.faucetBaseContractSymbol,
       faucetCoinContract: faucetConfig.faucetCoinContract,
+      faucetBaseCoinContract: faucetConfig.faucetBaseCoinContract,
       faucetCoinDecimals: ethWalletManager.getFaucetDecimals(),
       minClaim: faucetConfig.minDropAmount,
       maxClaim: faucetConfig.faucetCoinType === FaucetCoinType.NATIVE? faucetConfig.maxDropAmount: faucetConfig.maxDropAmount *5,
@@ -196,8 +200,8 @@ export class FaucetWebApi {
     console.log({userInput},faucetConfig.faucetCoinSymbol, faucetConfig.faucetCoinType)
     faucetConfig.faucetCoinSymbol = userInput.faucetCoinSymbol
     faucetConfig.faucetCoinType = userInput.faucetCoinType
-
-    console.log(faucetConfig.faucetCoinSymbol, faucetConfig.faucetCoinType)
+    faucetConfig.faucetCoinContract = userInput.faucetCoinSymbol === faucetConfig.faucetBaseContractSymbol? faucetConfig.faucetBaseCoinContract: faucetConfig.faucetCoinContract
+    console.log(userInput)
     let responseData: any = {};
     let sessionInfo: IClientSessionInfo;
     let session: FaucetSession;
@@ -272,6 +276,7 @@ export class FaucetWebApi {
     
     let userInput = JSON.parse(body.toString("utf8"));
     let sessionData: FaucetSessionStoreData;
+    
     if(!userInput || !userInput.session || !(sessionData = await ServiceManager.GetService(SessionManager).getSessionData(userInput.session))) {
       return {
         status: FaucetSessionStatus.FAILED,
@@ -281,6 +286,9 @@ export class FaucetWebApi {
     }
     faucetConfig.faucetCoinType = userInput.faucetCoinType;
     faucetConfig.faucetCoinSymbol = userInput.faucetCoinSymbol;
+    faucetConfig.faucetCoinContract = userInput.faucetCoinSymbol === faucetConfig.faucetBaseContractSymbol?faucetConfig.faucetBaseCoinContract: faucetConfig.faucetCoinContract;
+
+    
     try {
       await ServiceManager.GetService(EthClaimManager).createSessionClaim(sessionData, userInput);
     } catch(ex) {

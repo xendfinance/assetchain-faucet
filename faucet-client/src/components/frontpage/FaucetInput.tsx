@@ -17,10 +17,10 @@ export interface IFaucetInputState {
 }
 
 export class FaucetInput extends React.PureComponent<IFaucetInputProps, IFaucetInputState> {
-	
+
 	private faucetCaptcha = React.createRef<FaucetCaptcha>();
 	private githubLogin = React.createRef<GithubLogin>();
-	
+
 	constructor(props: IFaucetInputProps, state: IFaucetInputState) {
 		super(props);
 
@@ -68,75 +68,90 @@ export class FaucetInput extends React.PureComponent<IFaucetInputProps, IFaucetI
 						<FaucetCaptcha faucetConfig={this.props.faucetConfig} ref={this.faucetCaptcha} variant="session" />
 					</div>
 				) : null}
-				
+
 				{this.props.faucetConfig.assetFaucetCoinType ?
-				<>
-				<div className="faucet-actions center">
-					<button
-						className="btn btn-success start-action"
-						onClick={(evt) => this.onSubmitBtnClick("native","RWA")}
-						disabled={this.state.submitting}
-					>
-						{this.state.submitting ? (
-							<span className="inline-spinner">
-								<img src="/images/spinner.gif" className="spinner" />
-							</span>
-						) : null}
-						{submitBtnCaption} RWA
-					</button>
-					
-				</div>
-				<div className="faucet-actions center">
-				<button
-					className="btn btn-success start-action"
-					onClick={(evt) => this.onSubmitBtnClick("erc20", this.props.faucetConfig.faucetCoinContractSymbol)}
-					disabled={this.state.submitting}
-				>
-					{this.state.submitting ? (
-						<span className="inline-spinner">
-							<img src="/images/spinner.gif" className="spinner" />
-						</span>
-					) : null}
-					{submitBtnCaption} {this.props.faucetConfig.faucetCoinContractSymbol}
-				</button>
-				
-			</div>
-				</>
-				:
-				this.props.faucetConfig.faucetCoinType == "native"?
-				<div className="faucet-actions center">
-				<button
-					className="btn btn-success start-action"
-					onClick={(evt) => this.onSubmitBtnClick(this.props.faucetConfig.faucetCoinType, this.props.faucetConfig.faucetCoinSymbol)}
-					disabled={this.state.submitting}
-				>
-					{this.state.submitting ? (
-						<span className="inline-spinner">
-							<img src="/images/spinner.gif" className="spinner" />
-						</span>
-					) : null}
-					{submitBtnCaption} 
-				</button>
-				
-			</div>
-			:
-			<div className="faucet-actions center">
-				<button
-					className="btn btn-success start-action"
-					onClick={(evt) => this.onSubmitBtnClick(this.props.faucetConfig.faucetCoinType,this.props.faucetConfig.faucetCoinSymbol )}
-					disabled={this.state.submitting}
-				>
-					{this.state.submitting ? (
-						<span className="inline-spinner">
-							<img src="/images/spinner.gif" className="spinner" />
-						</span>
-					) : null}
-					{submitBtnCaption } {this.props.faucetConfig.faucetCoinSymbol}
-				</button>
-				
-			</div>
+					<>
+						<div className="faucet-actions center">
+							<button
+								className="btn btn-success start-action"
+								onClick={(evt) => this.onSubmitBtnClick("native", "RWA")}
+								disabled={this.state.submitting}
+							>
+								{this.state.submitting ? (
+									<span className="inline-spinner">
+										<img src="/images/spinner.gif" className="spinner" />
+									</span>
+								) : null}
+								{submitBtnCaption} RWA
+							</button>
+
+						</div>
+						<div className="faucet-actions center">
+							<button
+								className="btn btn-success start-action"
+								onClick={(evt) => this.onSubmitBtnClick("erc20", this.props.faucetConfig.faucetCoinContractSymbol)}
+								disabled={this.state.submitting}
+							>
+								{this.state.submitting ? (
+									<span className="inline-spinner">
+										<img src="/images/spinner.gif" className="spinner" />
+									</span>
+								) : null}
+								{submitBtnCaption} {this.props.faucetConfig.faucetCoinContractSymbol}
+							</button>
+
+						</div>
+						<div className="faucet-actions center">
+							<button
+								className="btn btn-success start-action"
+								onClick={(evt) => this.onSubmitBtnClick("erc20", this.props.faucetConfig.faucetBaseContractSymbol)}
+								disabled={this.state.submitting}
+							>
+								{this.state.submitting ? (
+									<span className="inline-spinner">
+										<img src="/images/spinner.gif" className="spinner" />
+									</span>
+								) : null}
+								{submitBtnCaption} {this.props.faucetConfig.faucetBaseContractSymbol}
+							</button>
+
+						</div>
+					</>
+					:
+					this.props.faucetConfig.faucetCoinType == "native" ?
+						<div className="faucet-actions center">
+							<button
+								className="btn btn-success start-action"
+								onClick={(evt) => this.onSubmitBtnClick(this.props.faucetConfig.faucetCoinType, this.props.faucetConfig.faucetCoinSymbol)}
+								disabled={this.state.submitting}
+							>
+								{this.state.submitting ? (
+									<span className="inline-spinner">
+										<img src="/images/spinner.gif" className="spinner" />
+									</span>
+								) : null}
+								{submitBtnCaption}
+							</button>
+
+						</div>
+						:
+						<div className="faucet-actions center">
+							<button
+								className="btn btn-success start-action"
+								onClick={(evt) => this.onSubmitBtnClick(this.props.faucetConfig.faucetCoinType, this.props.faucetConfig.faucetCoinSymbol)}
+								disabled={this.state.submitting}
+							>
+								{this.state.submitting ? (
+									<span className="inline-spinner">
+										<img src="/images/spinner.gif" className="spinner" />
+									</span>
+								) : null}
+								{submitBtnCaption} {this.props.faucetConfig.faucetCoinSymbol}
+							</button>
+
+						</div>
 				}
-				
+
 			</div>
 		);
 	}
@@ -151,7 +166,7 @@ export class FaucetInput extends React.PureComponent<IFaucetInputProps, IFaucetI
 
 			inputData.addr = this.state.targetAddr;
 			inputData.faucetCoinType = tokenType,
-			inputData.faucetCoinSymbol = symbol
+				inputData.faucetCoinSymbol = symbol
 			this.props.faucetConfig.faucetCoinType = tokenType;
 			this.props.faucetConfig.faucetCoinSymbol = symbol
 			if (this.props.faucetConfig.modules.captcha?.requiredForStart) {

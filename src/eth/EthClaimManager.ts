@@ -45,6 +45,7 @@ export interface EthClaimInfo {
   claim: EthClaimData;
   faucetCoinType: string;
   faucetCoinSymbol: string;
+  faucetCoinContract: string;
 }
 
 export interface EthClaimData {
@@ -59,6 +60,7 @@ export interface EthClaimData {
   txError?: string;
   faucetCoinSymbol :string;
   faucetCoinType: string;
+  faucetCoinContract: string;
 }
 
 export class EthClaimManager {
@@ -92,7 +94,8 @@ export class EthClaimManager {
         amount: sessionData.dropAmount,
         claim: sessionData.claim,
         faucetCoinSymbol:sessionData.claim.faucetCoinSymbol,
-        faucetCoinType: sessionData.claim.faucetCoinType
+        faucetCoinType: sessionData.claim.faucetCoinType,
+        faucetCoinContract: sessionData.claim.faucetCoinContract
       };
       switch(claimInfo.claim.claimStatus) {
         case ClaimTxStatus.QUEUE:
@@ -201,13 +204,16 @@ export class EthClaimManager {
       maxDropAmount = userInput.faucetCoinType == FaucetCoinType.NATIVE? BigInt(sessionData.data["overrideMaxDropAmount"]): BigInt(sessionData.data["overrideMaxDropAmount"] * 5);
     if(BigInt(sessionData.dropAmount) > maxDropAmount)
       sessionData.dropAmount = maxDropAmount.toString();
+    
     let claimInfo: EthClaimInfo = {
       session: sessionData.sessionId,
       target: sessionData.targetAddr,
       amount: sessionData.dropAmount,
       claim: sessionData.claim,
       faucetCoinSymbol :userInput.faucetCoinSymbol,
-      faucetCoinType: userInput.faucetCoinType
+      faucetCoinType: userInput.faucetCoinType,
+      faucetCoinContract:   userInput.faucetCoinSymbol === faucetConfig.faucetBaseContractSymbol ?faucetConfig.faucetBaseCoinContract:faucetConfig.faucetCoinContract
+
     };
     
     try {
@@ -228,43 +234,49 @@ export class EthClaimManager {
       claimStatus: ClaimTxStatus.QUEUE,
       claimTime: Math.floor(new Date().getTime() / 1000),
       faucetCoinSymbol :userInput.faucetCoinSymbol,
-      faucetCoinType: userInput.faucetCoinType
+      faucetCoinType: userInput.faucetCoinType,
+      faucetCoinContract: userInput.faucetCoinSymbol === faucetConfig.faucetBaseContractSymbol?faucetConfig.faucetBaseCoinContract: faucetConfig.faucetCoinContract
+
     };
     sessionData.status = FaucetSessionStatus.CLAIMING;
     sessionData.dropAmount = claimInfo.amount;
     sessionData.claim = claimInfo.claim;
     sessionData.claim.faucetCoinSymbol = userInput.faucetCoinSymbol;
     sessionData.claim.faucetCoinType =userInput.faucetCoinType;
+    sessionData.claim.faucetCoinContract =claimInfo.claim.faucetCoinContract
     ServiceManager.GetService(FaucetDatabase).updateSession(sessionData);
-    console.log(claimInfo, "kkddkjfkd")
-
+    
     this.claimTxQueue.push(claimInfo);
     this.claimTxDict[claimInfo.session] = claimInfo;
     return claimInfo;
   }
 
   public async processQueue() {
+    
     if(this.queueProcessing)
       return;
     this.queueProcessing = true;
+    
+
     try {
       let walletState = ServiceManager.GetService(EthWalletManager).getWalletState();
-
+      
       while(Object.keys(this.pendingTxQueue).length < faucetConfig.ethMaxPending && this.claimTxQueue.length > 0) {
-
+        
         if(faucetConfig.ethQueueNoFunds && (
           !walletState.ready || 
           walletState.balance - BigInt(faucetConfig.spareFundsAmount) < BigInt(this.claimTxQueue[0].amount) ||
           walletState.nativeBalance <= BigInt(faucetConfig.ethTxGasLimit) * BigInt(faucetConfig.ethTxMaxFee)
         )) {
+         
           break; // skip processing (out of funds)
         }        
-        console.log()
+        
 
 
         let claimTx = this.claimTxQueue.splice(0, 1)[0];
         this.lastProcessedClaimTxIdx = claimTx.claim.claimIdx;
-
+        console.log(this.queueProcessing,claimTx,  "kkddkjfkd")
         await this.processQueueTx(claimTx);
       }
 
@@ -298,6 +310,7 @@ export class EthClaimManager {
 
   private async processQueueTx(claimTx: EthClaimInfo) {
     let ethWalletManager = ServiceManager.GetService(EthWalletManager);
+    
     let walletState = ethWalletManager.getWalletState();
     if(!walletState.ready) {
       claimTx.claim.claimStatus = ClaimTxStatus.FAILED;

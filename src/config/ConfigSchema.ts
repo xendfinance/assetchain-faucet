@@ -25,7 +25,9 @@ export interface IConfigSchema {
   faucetCoinType: FaucetCoinType; // coin type (native / erc20)
   assetFaucetCoinType: boolean;
   faucetCoinContractSymbol: string;
+  faucetBaseContractSymbol:string;
   faucetCoinContract: string; // erc20 coin contract (for erc20 coins)
+  faucetBaseCoinContract: string;
   faucetLogFile: string; // logfile for faucet events / null for no log
   faucetLogStatsInterval: number; // print faucet stats to log interval (10min default)
   serverPort: number; // listener port
@@ -33,6 +35,7 @@ export interface IConfigSchema {
   faucetSecret: string; // random secret string that is used by the faucet to "sign" session data, so sessions can be restored automatically by clients when faucet is restarted / crashed
 
   ethRpcHost: string; // ETH execution layer RPC host
+  baseEthRpcHost: string;
   ethWalletKey: string; // faucet wallet private key
   ethChainId: number | null; // ETH chain id
   ethTxGasLimit: number; // transaction gas limit (wei)

@@ -122,6 +122,7 @@ describe("ETH Wallet Manager", () => {
     faucetConfig.faucetCoinType = FaucetCoinType.ERC20;
     faucetConfig.assetFaucetCoinType = false;
     faucetConfig.faucetCoinContractSymbol = "";
+    faucetConfig.faucetBaseContractSymbol = "";
     faucetConfig.faucetCoinContract = "0x0000000000000000000000000000000000001337";
     await ethWalletManager.initialize();
     await ethWalletManager.loadWalletState();

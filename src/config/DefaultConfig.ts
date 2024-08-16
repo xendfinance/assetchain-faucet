@@ -26,7 +26,9 @@ export function getDefaultConfig(): IConfigSchema {
     faucetCoinType: FaucetCoinType.NATIVE,
     assetFaucetCoinType: false,
     faucetCoinContractSymbol: "",
+    faucetBaseContractSymbol:"",
     faucetCoinContract: null,
+    faucetBaseCoinContract: null,
     faucetLogFile: null,
     faucetLogStatsInterval: 600,
     serverPort: 8080,
@@ -34,6 +36,7 @@ export function getDefaultConfig(): IConfigSchema {
     faucetSecret: null, // mandatory
 
     ethRpcHost: null, // mandatory
+    baseEthRpcHost: null,
     ethWalletKey: null, // mandatory
     ethChainId: null,
     ethTxGasLimit: 100000,

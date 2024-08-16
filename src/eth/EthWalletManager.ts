@@ -113,8 +113,18 @@ export class EthWalletManager {
   }
 
   private startWeb3() {
-    let provider = EthWalletManager.getWeb3Provider(faucetConfig.ethRpcHost);
+    let provider
+    
+    if (faucetConfig.faucetCoinSymbol == faucetConfig.faucetBaseContractSymbol){
+      provider = EthWalletManager.getWeb3Provider(faucetConfig.baseEthRpcHost);
+    }
+    else{
+      provider = EthWalletManager.getWeb3Provider(faucetConfig.ethRpcHost);
+
+    }
+    
     this.web3 = new Web3(provider);
+    this.loadWalletState()
     // let storedSession = ServiceManager.GetService(FaucetDatabase).getSessions([
     //   FaucetSessionStatus.CLAIMING,
     // ]);
@@ -144,6 +154,7 @@ export class EthWalletManager {
         let tokenContract = new this.web3.eth.Contract(Erc20Abi, faucetConfig.faucetCoinContract, {
           from: this.walletAddr,
         });
+        
         this.tokenState = {
           address: faucetConfig.faucetCoinContract,
           contract: tokenContract,
@@ -154,6 +165,7 @@ export class EthWalletManager {
         tokenContract.methods.decimals().call().then((res) => {
           this.tokenState.decimals = Number(res);
         });
+        console.log( "maarrk")
         break;
       default:
         ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.ERROR, "Unknown coin type: " + faucetConfig.faucetCoinType);
@@ -239,6 +251,7 @@ export class EthWalletManager {
         }
       }
       if(!statusLevel && this.walletState.balance <= faucetConfig.lowFundsBalance) {
+        console.log(this.walletState.balance, faucetConfig.lowFundsBalance)
         if(typeof faucetConfig.lowFundsWarning === "string")
           statusMessage = faucetConfig.lowFundsWarning;
         else if(faucetConfig.lowFundsWarning)
@@ -269,7 +282,7 @@ export class EthWalletManager {
     let factor = Math.pow(10, decimals);
     return parseInt(amount.toString()) / factor;
   }
-
+  //Todo: 1
   public readableAmount(amount: bigint, native?: boolean): string {
     let amountStr = (Math.floor(this.decimalUnitAmount(amount, native) * 1000) / 1000).toString();
     return amountStr + " " + (native ? faucetConfig.faucetCoinSymbol : faucetConfig.faucetCoinContractSymbol);
@@ -330,6 +343,7 @@ export class EthWalletManager {
     let txError: Error;
     faucetConfig.faucetCoinSymbol = claimInfo.faucetCoinSymbol;
     faucetConfig.faucetCoinType = claimInfo.faucetCoinType === 'native'?FaucetCoinType.NATIVE: FaucetCoinType.ERC20
+    faucetConfig.faucetCoinContract = claimInfo.faucetCoinSymbol === faucetConfig.faucetBaseContractSymbol ?faucetConfig.faucetBaseCoinContract:faucetConfig.faucetCoinContract
     await this.startWeb3()
     let buildTx = () => {
       claimInfo.claim.txNonce = this.walletState.nonce;
@@ -461,6 +475,7 @@ export class EthWalletManager {
     let txhashDfd = new PromiseDfd<string>();
     let receiptDfd = new PromiseDfd<TransactionReceipt>();
     let txStatus = 0;
+    console.log(this.web3.provider, "hhhhhhhhh");
 
     let txPromise = this.web3.eth.sendSignedTransaction("0x" + txhex);
     txPromise.once('transactionHash', (hash) => {

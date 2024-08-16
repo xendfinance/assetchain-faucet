@@ -7,7 +7,9 @@ export interface IFaucetConfig {
   faucetCoinType: string;
   assetFaucetCoinType: boolean;
   faucetCoinContractSymbol: string;
+  faucetBaseContractSymbol: string;
   faucetCoinContract: string;
+  faucetBaseCoinContract: string;
   faucetCoinDecimals: number;
   minClaim: number;
   maxClaim: number;

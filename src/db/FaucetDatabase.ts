@@ -13,6 +13,8 @@ import { WorkerDriver } from './driver/WorkerDriver.js';
 import { FaucetWorkers } from '../common/FaucetWorker.js';
 import { IMySQLOptions, MySQLDriver } from "./driver/MySQLDriver.js";
 import { SQL } from "./SQL.js";
+import fs from 'fs/promises';
+
 
 export type FaucetDatabaseOptions = ISQLiteOptions | IMySQLOptions;
 
@@ -34,7 +36,37 @@ export class FaucetDatabase {
       return;
     this.initialized = true;
 
-    await this.initDatabase();
+    try {
+      await this.initDatabase();
+    } catch (error) {
+      ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.ERROR, `Faucet initialization failed: ${error.message}`);
+      
+      if (faucetConfig.database.driver === FaucetDbDriver.SQLITE) {
+        await this.closeDatabase();
+        const dbPath = resolveRelativePath(faucetConfig.database.file);
+        
+        // Delete the database file if it exists
+        try {
+          await fs.unlink(dbPath);
+          await fs.unlink('new-faucet-store.db-journal');
+          await fs.rm("new-faucet-store.db.lock", { recursive: true, force: true });
+
+          ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.INFO, `Deleted locked database file at ${dbPath}`);
+        } catch (fsError) {
+          ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.ERROR, `Failed to delete database file: ${fsError.message}`);
+        }
+
+        // Retry database initialization
+        try {
+          await this.initDatabase();
+        } catch (retryError) {
+          ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.ERROR, `Faucet reinitialization failed: ${retryError.message}`);
+          throw retryError; // Re-throw if reinitialization also fails
+        }
+      } else {
+        throw error; // Re-throw for non-SQLite errors
+      }
+    }
     this.cleanupTimer = setInterval(() => {
       this.cleanStore();
     }, (1000 * 60 * 60 * 2));

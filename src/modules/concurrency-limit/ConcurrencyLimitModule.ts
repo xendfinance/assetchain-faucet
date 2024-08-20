@@ -11,11 +11,11 @@ export class ConcurrencyLimitModule extends BaseModule<IConcurrencyLimitConfig> 
 
   protected override startModule(): Promise<void> {
     this.moduleManager.addActionHook(
-      this, ModuleHookAction.SessionStart, 6, "Recurring limits check", 
+      this, ModuleHookAction.SessionStart, 6, "Recurring limits check",
       (session: FaucetSession) => this.processSessionStart(session)
     );
     this.moduleManager.addActionHook(
-      this, ModuleHookAction.SessionIpChange, 6, "Recurring limits check", 
+      this, ModuleHookAction.SessionIpChange, 6, "Recurring limits check",
       (session: FaucetSession) => this.processSessionStart(session)
     );
     return Promise.resolve();
@@ -26,37 +26,52 @@ export class ConcurrencyLimitModule extends BaseModule<IConcurrencyLimitConfig> 
   }
 
   private async processSessionStart(session: FaucetSession): Promise<void> {
-    if(session.getSessionData<Array<string>>("skip.modules", []).indexOf(this.moduleName) !== -1)
+    if (session.getSessionData<Array<string>>("skip.modules", []).indexOf(this.moduleName) !== -1)
       return;
     this.checkLimit(session);
   }
 
   private checkLimit(session: FaucetSession): void {
-    if(this.moduleConfig.concurrencyLimit === 0)
+    if (this.moduleConfig.concurrencyLimit === 0)
       return;
-    
+
     let activeSessions = ServiceManager.GetService(SessionManager).getActiveSessions();
     let concurrentSessionCount = 0;
     let concurrentLimitMessage: string = null;
 
-    if(!this.moduleConfig.byAddrOnly) {
+    if (!this.moduleConfig.byAddrOnly) {
       let sessCount = activeSessions.filter((sess) => sess !== session && sess.getRemoteIP() === session.getRemoteIP()).length;
-      if(sessCount > concurrentSessionCount) {
+      if (sessCount > concurrentSessionCount) {
         concurrentSessionCount = sessCount;
         concurrentLimitMessage = this.moduleConfig.messageByIP || ("Only " + this.moduleConfig.concurrencyLimit + " concurrent sessions allowed per IP");
       }
     }
-    if(!this.moduleConfig.byIPOnly) {
+    if (!this.moduleConfig.byIPOnly) {
       let sessCount = activeSessions.filter((sess) => sess !== session && sess.getTargetAddr() === session.getTargetAddr()).length;
-      if(sessCount > concurrentSessionCount) {
+      if (sessCount > concurrentSessionCount) {
         concurrentSessionCount = sessCount;
         concurrentLimitMessage = this.moduleConfig.messageByAddr || ("Only " + this.moduleConfig.concurrencyLimit + " concurrent sessions allowed per wallet address");
       }
     }
 
-    if(concurrentSessionCount >= this.moduleConfig.concurrencyLimit) {
+    if (concurrentSessionCount >= this.moduleConfig.concurrencyLimit) {
+      let excessSessions = activeSessions.filter((sess) =>
+        (sess.getRemoteIP() === session.getRemoteIP() && this.moduleConfig.byAddrOnly) ||
+        (sess.getTargetAddr() === session.getTargetAddr() && this.moduleConfig.byIPOnly)
+      );
+
+      // Optional: Sort excessSessions if needed to prioritize which sessions to terminate
+      excessSessions.forEach((sess) => {
+        if (sess !== session) {
+          // Terminate or remove excess session
+          // Example: sess.terminate(); // or any method to handle the session
+          // Or use ServiceManager to handle session termination
+          ServiceManager.GetService(SessionManager).failSession(sess, concurrentLimitMessage);
+        }
+      });
+
       throw new FaucetError(
-        "CONCURRENCY_LIMIT", 
+        "CONCURRENCY_LIMIT",
         concurrentLimitMessage,
       );
     }

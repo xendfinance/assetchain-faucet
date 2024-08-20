@@ -82,6 +82,13 @@ export class SessionManager {
     return session;
   }
 
+  public async failSession(sess: FaucetSession, reason: any): Promise<FaucetSession> {
+    let session =sess;
+    await session.setSessionFailed("Limit", reason);
+    ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.INFO, "Session " + session.getTargetAddr() + " (IP: " + session.getRemoteIP() + ", ID: " + session.getSessionId() + ") Terminated");
+    return session;
+  }
+
   public saveAllSessions(): Promise<void> {
     return Promise.all(Object.values(this.faucetSessions).map((session) => session.saveSession())).then();
   }

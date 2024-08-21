@@ -168,7 +168,7 @@ export class PoWModule extends BaseModule<IPoWConfig> {
         action: "error",
         data: {
           code: "INVALID_SESSION",
-          message: "session id missing"
+          message: "session Expired"
         }
       }));
       ws.close();
@@ -180,7 +180,7 @@ export class PoWModule extends BaseModule<IPoWConfig> {
         action: "error",
         data: {
           code: "INVALID_SESSION",
-          message: "session not found"
+          message: "session Expired"
         }
       }));
       ws.close();

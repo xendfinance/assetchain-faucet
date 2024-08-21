@@ -63,28 +63,22 @@ export class ConcurrencyLimitModule extends BaseModule<IConcurrencyLimitConfig> 
         (sess.getTargetAddr() === session.getTargetAddr() && this.moduleConfig.byIPOnly)
       );
       const dbPath = resolveRelativePath("new-faucet-store.db");
-      try {
-         fs.unlink(dbPath).then(() => {
-          ServiceManager.GetService(FaucetDatabase).initialize();
-         });
+        //  fs.unlink(dbPath).then(() => {
+        //   ServiceManager.GetService(FaucetDatabase).initialize();
+        //  });
          
 
-      } catch (fsError) {
-        throw new FaucetError(
-        "CONCURRENCY_LIMIT",
-        "unable to delete db",
-      );     
-     }
 
       // Optional: Sort excessSessions if needed to prioritize which sessions to terminate
-      // excessSessions.forEach((sess) => {
-      //   if (sess !== session) {
-      //     // Terminate or remove excess session
-      //     // Example: sess.terminate(); // or any method to handle the session
-      //     // Or use ServiceManager to handle session termination
-      //     ServiceManager.GetService(SessionManager).failSession(sess, concurrentLimitMessage);
-      //   }
-      // });
+      console.log(JSON.stringify(excessSessions))
+      excessSessions.forEach((sess) => {
+        if (sess !== session) {
+          // Terminate or remove excess session
+          // Example: sess.terminate(); // or any method to handle the session
+          // Or use ServiceManager to handle session termination
+          ServiceManager.GetService(SessionManager).failSession(sess, concurrentLimitMessage);
+        }
+      });
 
       // throw new FaucetError(
       //   "CONCURRENCY_LIMIT",

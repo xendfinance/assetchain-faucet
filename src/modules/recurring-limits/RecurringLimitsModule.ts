@@ -45,12 +45,12 @@ export class RecurringLimitsModule extends BaseModule<IRecurringLimitsConfig> {
       }
     }
 
-    if(limit.byAddrOnly)
-      finishedSessions = await ServiceManager.GetService(FaucetDatabase).getFinishedSessions(session.getTargetAddr(), null, limit.duration, true);
+    if(limit.byAddrOnly && limit.byIPOnly)
+      finishedSessions = await ServiceManager.GetService(FaucetDatabase).getFinishedSessions(session.getTargetAddr(), remoteIp, limit.duration, true);
     else if(limit.byIPOnly)
       finishedSessions = await ServiceManager.GetService(FaucetDatabase).getFinishedSessions(null, remoteIp, limit.duration, true);
-    else
-      finishedSessions = await ServiceManager.GetService(FaucetDatabase).getFinishedSessions(session.getTargetAddr(), remoteIp, limit.duration, true);
+    else if (limit.byAddrOnly)
+      finishedSessions = await ServiceManager.GetService(FaucetDatabase).getFinishedSessions(session.getTargetAddr(), null, limit.duration, true);
     
     let limitApplies = false;
     if(limit.limitCount > 0 && finishedSessions.length >= limit.limitCount) {

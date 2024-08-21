@@ -86,6 +86,10 @@ export class SessionManager {
     let session =sess;
     await session.setSessionFailed("Limit", reason);
     ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.INFO, "Session " + session.getTargetAddr() + " (IP: " + session.getRemoteIP() + ", ID: " + session.getSessionId() + ") Terminated");
+     // Clear the session after it fails
+     if (this.faucetSessions[session.getSessionId()]) {
+      delete this.faucetSessions[session.getSessionId()];
+  }
     return session;
   }
 

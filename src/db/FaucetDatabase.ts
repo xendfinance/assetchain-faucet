@@ -38,18 +38,21 @@ export class FaucetDatabase {
 
     try {
       await this.initDatabase();
+      
     } catch (error) {
       ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.ERROR, `Faucet initialization failed: ${error.message}`);
       
       if (faucetConfig.database.driver === FaucetDbDriver.SQLITE) {
         await this.closeDatabase();
         const dbPath = resolveRelativePath(faucetConfig.database.file);
+        const dbPath_journal = resolveRelativePath("new-faucet-store.db-journal");
+        const dbPath_journal_lock = resolveRelativePath("new-faucet-store.db.lock");
         
         // Delete the database file if it exists
         try {
           await fs.unlink(dbPath);
-          await fs.unlink('new-faucet-store.db-journal');
-          await fs.rm("new-faucet-store.db.lock", { recursive: true, force: true });
+          await fs.unlink(dbPath_journal);
+          await fs.rm(dbPath_journal_lock, { recursive: true, force: true });
 
           ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.INFO, `Deleted locked database file at ${dbPath}`);
         } catch (fsError) {

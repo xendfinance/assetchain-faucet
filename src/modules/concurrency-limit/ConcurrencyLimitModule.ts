@@ -5,6 +5,9 @@ import { ModuleHookAction } from "../ModuleManager.js";
 import { defaultConfig, IConcurrencyLimitConfig } from './ConcurrencyLimitConfig.js';
 import { FaucetError } from '../../common/FaucetError.js';
 import { SessionManager } from "../../session/SessionManager.js";
+import { FaucetDatabase } from "../../db/FaucetDatabase.js";
+import { resolveRelativePath } from "../../config/FaucetConfig.js";
+import fs from 'fs/promises';
 
 export class ConcurrencyLimitModule extends BaseModule<IConcurrencyLimitConfig> {
   protected readonly moduleDefaultConfig = defaultConfig;
@@ -59,21 +62,34 @@ export class ConcurrencyLimitModule extends BaseModule<IConcurrencyLimitConfig> 
         (sess.getRemoteIP() === session.getRemoteIP() && this.moduleConfig.byAddrOnly) ||
         (sess.getTargetAddr() === session.getTargetAddr() && this.moduleConfig.byIPOnly)
       );
+      const dbPath = resolveRelativePath("new-faucet-store.db");
+      try {
+         fs.unlink(dbPath).then(() => {
+          ServiceManager.GetService(FaucetDatabase).initialize();
+         });
+         
+
+      } catch (fsError) {
+        throw new FaucetError(
+        "CONCURRENCY_LIMIT",
+        "unable to delete db",
+      );     
+     }
 
       // Optional: Sort excessSessions if needed to prioritize which sessions to terminate
-      excessSessions.forEach((sess) => {
-        if (sess !== session) {
-          // Terminate or remove excess session
-          // Example: sess.terminate(); // or any method to handle the session
-          // Or use ServiceManager to handle session termination
-          ServiceManager.GetService(SessionManager).failSession(sess, concurrentLimitMessage);
-        }
-      });
+      // excessSessions.forEach((sess) => {
+      //   if (sess !== session) {
+      //     // Terminate or remove excess session
+      //     // Example: sess.terminate(); // or any method to handle the session
+      //     // Or use ServiceManager to handle session termination
+      //     ServiceManager.GetService(SessionManager).failSession(sess, concurrentLimitMessage);
+      //   }
+      // });
 
-      throw new FaucetError(
-        "CONCURRENCY_LIMIT",
-        concurrentLimitMessage,
-      );
+      // throw new FaucetError(
+      //   "CONCURRENCY_LIMIT",
+      //   concurrentLimitMessage,
+      // );
     }
   }
 

@@ -274,7 +274,7 @@ modules:
     # enable / disable recurring limits protection
     enabled: false
     limits: # array of individual limits, which all need to be passed
-      - limitCount: 10
+      - limitCount: 1000
         limitAmount: 10000000000000000000 # 10 ETH
         duration: 86400 # 1 day
       - limitCount: 20

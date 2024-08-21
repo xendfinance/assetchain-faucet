@@ -286,7 +286,7 @@ modules:
   concurrency-limit:
     # enable / disable concurrency limit
     enabled: true
-    concurrencyLimit: 10 # only allow 1 concurrent session (sessions in 'running' state at the same time for the same ip / target addr)
+    concurrencyLimit: 1000 # only allow 1 concurrent session (sessions in 'running' state at the same time for the same ip / target addr)
     byAddrOnly: false # only check concurrency by target address
     byIPOnly: false # only check concurrency by IP address
     # messageByAddr: ""  #  custom error message when limit is exceeded by same target address

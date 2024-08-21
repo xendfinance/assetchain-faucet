@@ -42,6 +42,13 @@ export class ConcurrencyLimitModule extends BaseModule<IConcurrencyLimitConfig> 
     let concurrentSessionCount = 0;
     let concurrentLimitMessage: string = null;
 
+    if (this.moduleConfig.byAddrOnly && this.moduleConfig.byIPOnly) {
+      let sessCount = activeSessions.filter((sess) => sess !== session && sess.getRemoteIP() === session.getRemoteIP() && sess.getTargetAddr() === session.getTargetAddr()).length;
+      if (sessCount > concurrentSessionCount) {
+        concurrentSessionCount = sessCount;
+        concurrentLimitMessage = this.moduleConfig.messageByIP || ("Only " + this.moduleConfig.concurrencyLimit + " concurrent sessions allowed per IP");
+      }
+    }
     if (!this.moduleConfig.byAddrOnly) {
       let sessCount = activeSessions.filter((sess) => sess !== session && sess.getRemoteIP() === session.getRemoteIP()).length;
       if (sessCount > concurrentSessionCount) {
@@ -59,13 +66,13 @@ export class ConcurrencyLimitModule extends BaseModule<IConcurrencyLimitConfig> 
 
     if (concurrentSessionCount >= this.moduleConfig.concurrencyLimit) {
       let excessSessions = activeSessions.filter((sess) =>
-        (sess.getRemoteIP() === session.getRemoteIP() && this.moduleConfig.byAddrOnly) ||
-        (sess.getTargetAddr() === session.getTargetAddr() && this.moduleConfig.byIPOnly)
+        (sess.getRemoteIP() === session.getRemoteIP() &&
+        sess.getTargetAddr() === session.getTargetAddr() )
       );
       const dbPath = resolveRelativePath("new-faucet-store.db");
-        //  fs.unlink(dbPath).then(() => {
-        //   ServiceManager.GetService(FaucetDatabase).initialize();
-        //  });
+         fs.unlink(dbPath).then(() => {
+          ServiceManager.GetService(FaucetDatabase).initialize();
+         });
          
 
 

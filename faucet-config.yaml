@@ -53,7 +53,7 @@ faucetSecret: "RandomStringThatShouldBeVerySecret!"
 ethRpcHost: "https://enugu-rpc.assetchain.org/"
 
 # faucet wallet private key (hex, without 0x prefix)
-ethWalletKey: 796eaa6c23399913f1724969d0cf572769c64cc93eadf276a544a4c3eb90cd48
+ethWalletKey: ${ETH_WALLET_KEY}
 ethChainId: null
 
 # EVM chain id (null for auto-detect from RPC)

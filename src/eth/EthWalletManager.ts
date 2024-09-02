@@ -431,9 +431,9 @@ export class EthWalletManager {
         nonce: nonce,
         gasLimit: gasLimit || faucetConfig.ethTxGasLimit,
         gasPrice: gasPrice,
-        to: target,
-        value: "0x" + amount.toString(16),
-        data: data ? data : "0x"
+        to: EthUtil.toBuffer(target),
+        value: BigInt(amount),
+        data: data ? EthUtil.toBuffer(data) : EthUtil.toBuffer("0x")
       }, {
         common: this.chainCommon
       });
@@ -443,11 +443,11 @@ export class EthWalletManager {
       tx = EthTx.FeeMarketEIP1559Transaction.fromTxData({
         nonce: nonce,
         gasLimit: gasLimit || faucetConfig.ethTxGasLimit,
-        maxPriorityFeePerGas: faucetConfig.ethTxPrioFee,
-        maxFeePerGas: faucetConfig.ethTxMaxFee,
-        to: target,
-        value: "0x" + amount.toString(16),
-        data: data ? data : "0x"
+        maxPriorityFeePerGas: BigInt(faucetConfig.ethTxPrioFee),
+        maxFeePerGas: BigInt(faucetConfig.ethTxMaxFee),
+        to: EthUtil.toBuffer(target),
+        value: BigInt(amount),
+        data: data ? EthUtil.toBuffer(data) : EthUtil.toBuffer("0x")
       }, {
         common: this.chainCommon
       });

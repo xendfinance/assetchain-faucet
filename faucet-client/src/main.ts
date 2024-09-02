@@ -1,4 +1,5 @@
 import React from 'react';
+import 'dotenv/config';
 import ReactDOM from 'react-dom';
 import { FaucetPage, IFaucetPageProps } from './components/FaucetPage';
 

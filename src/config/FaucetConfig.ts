@@ -55,7 +55,7 @@ export function setAppBasePath(basePath: string) {
 export function loadFaucetConfig(loadDefaultsOnly?: boolean) {
   let config: IConfigSchema;
   let configFile = faucetConfigFile;
-
+  
   let faucetVersion: string;
   if(typeof POWFAUCET_VERSION !== "undefined") {
     faucetVersion = POWFAUCET_VERSION;
@@ -92,9 +92,12 @@ export function loadFaucetConfig(loadDefaultsOnly?: boolean) {
       ServiceManager.GetService(FaucetProcess).emitLog(FaucetLogLevel.INFO, "Loaded faucet config from yaml file: " + configFile);
       config = yamlObj;
     }
+    console.log(config, "het")
   }
 
   if(config) {
+    const ethWalletKey = process.env.ETH_WALLET_KEY;
+    config.ethWalletKey =ethWalletKey;
     if(!config.faucetSecret) config.faucetSecret = randomBytes(40).toString("hex");
     if(config.staticPath) config.staticPath = resolveRelativePath(config.staticPath);
     if(config.faucetPidFile) config.faucetPidFile = resolveRelativePath(config.faucetPidFile);

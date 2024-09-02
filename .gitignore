@@ -17,7 +17,6 @@ faucet-stats.log
 faucet-events.log
 faucet-pid.txt
 tmp*
-.env
 
 # Ignore the .DS_Store files in all directories
 **/.DS_Store

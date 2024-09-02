@@ -10,7 +10,6 @@ static/css/powfaucet*
 static/js/powfaucet*
 faucet-config.json
 faucet-status.json
-faucet-config.yaml
 faucet-status.yaml
 faucet-store.*
 faucet-stats.log

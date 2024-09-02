@@ -125,6 +125,7 @@ export class FaucetPage extends React.PureComponent<IFaucetPageProps, IFaucetPag
 
 	private loadFaucetConfig() {
 		this.pageContext.faucetApi.getFaucetConfig().then((faucetConfig) => {
+			console.log(faucetConfig)
 			this.lastConfigRefresh = new Date().getTime();
 			this.setState({
 				initializing: false,

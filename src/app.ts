@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import path, { dirname, basename } from "path";
 import { fileURLToPath } from "url";
 import { isMainThread, workerData } from "node:worker_threads";

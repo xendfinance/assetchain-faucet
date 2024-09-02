@@ -2,6 +2,8 @@ version: 2
 updates:
   - package-ecosystem: "npm"
     directory: "/"
+    ignore:
+      - dependency-name: faucet-config.yaml
     schedule:
       interval: "weekly"
   - package-ecosystem: "npm"

@@ -54,7 +54,7 @@
     "@brettz9/node-static": "^0.1.1",
     "@ethereumjs/common": "^4.4.0",
     "@ethereumjs/tx": "^5.4.0",
-    "@types/node": "^20.11.20",
+    "@types/node": "^22.7.4",
     "bignumber.js": "^9.1.2",
     "dotenv": "^16.4.5",
     "ethereumjs-util": "^7.1.5",
